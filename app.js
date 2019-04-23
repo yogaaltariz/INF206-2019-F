@@ -211,7 +211,11 @@ const petugas = mongoose.model("petugas",petugasSchema)
 
 
 //set route
-
+app.get('/',checkSignIn,function(req, res,next) {
+	
+	res.render('home',{id: req.session.user._id})
+    // res.sendFile(path.resolve(__dirname +'/views/home.ejs'));
+});
 
 
 
