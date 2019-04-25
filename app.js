@@ -4,6 +4,11 @@ const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 
 const app = express()
+app.use(session({
+    secret: "rahasia",
+    resave: true,
+    saveUninitialized: true
+}));
 
 //set view engine menggunakan ejs
 app.set("view engine","ejs")
