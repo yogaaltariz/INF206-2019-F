@@ -4,6 +4,8 @@ const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 
 const app = express()
+
+//session
 app.use(session({
     secret: "rahasia",
     resave: true,
