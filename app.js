@@ -217,6 +217,18 @@ app.get('/',checkSignIn,function(req, res,next) {
     // res.sendFile(path.resolve(__dirname +'/views/home.ejs'));
 });
 
+app.get("/info-hasil-periksa/:id",function(req,res) {
+
+	DataKir.find({_id: req.param("id")}, function (err,data){
+		if (err) {
+			res.send(err)
+		} else {
+			const doc = JSON.stringify(data)
+			res.render('info-hasil-periksa',{data: doc })
+		}
+	})
+})
+
 
 
 
