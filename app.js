@@ -209,12 +209,47 @@ petugasSchema = new mongoose.Schema({
 const DataKir = mongoose.model("DataKir",ekirSchema)
 const petugas = mongoose.model("petugas",petugasSchema)
 
+//function
+function checkSignIn(req, res,next){
+	if(req.session.user){
+	   next()     //If session exists, proceed to page
+	} else {
+	   const err = new Error("Not logged in!")
+	   console.log(req.session.user)
+	   next(err) //Error, trying to access unauthorized page!
+	}
+}
+
 
 //set route
 app.get('/',checkSignIn,function(req, res,next) {
 	
 	res.render('home',{id: req.session.user._id})
     // res.sendFile(path.resolve(__dirname +'/views/home.ejs'));
+});
+
+app.get('/login',function (req,res) {
+	res.render('login',{message : ""})
+})
+
+app.post('/login', function(req, res){
+
+	if(!req.body.username || !req.body.password){
+	   res.render('login', {message: "Please enter both username and password"});
+	} else {
+		petugas.findOne({username: req.body.username},function(err,data){
+			if (err) {
+				res.render('login', {message: "Username atau id salah"})
+			} else {
+				if (data.username === req.body.username && data.password === req.body.password) {
+					req.session.user = data
+					res.redirect("/")
+				} else {
+					res.render('login', {message: "Username atau id salah"})
+				}
+			}
+		})   
+	}
 });
 
 app.get("/info-hasil-periksa/:id",function(req,res) {
@@ -228,6 +263,8 @@ app.get("/info-hasil-periksa/:id",function(req,res) {
 		}
 	})
 })
+
+
 
 
 
