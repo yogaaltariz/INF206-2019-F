@@ -1,0 +1,383 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/litera/bootstrap.min.css">
+
+  <title>Informasi Hasil Pemeriksaan</title>
+</head>
+
+<body>
+  <% 
+    data = JSON.parse(data)
+    data = data[0]
+    let tanggal = new Date(data.tanggalPeriksa)
+
+    let hari = tanggal.getDay()
+    let namaHari = ''
+    switch(hari) {
+      case 0 : 
+        namaHari = "Minggu";
+        break;
+      
+      case 1 :
+        namaHari = "Senin";
+        break;
+      
+      case 2 :
+        namaHari = "Selasa";
+        break;
+      
+      case 3 :
+        namaHari = "Rabu";
+        break;
+      case 4 :
+        namaHari = "Kamis";
+        break;
+      case 5 :
+        namaHari = "Jum'at";
+        break;
+      case 6 :
+        namaHari = "Sabtu"
+        break;
+    } 
+  %>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-light bg-light">
+    <a class="navbar-brand" href="/">
+      <img src="/warna.png" width="30" height="30" class="d-inline-block align-top" alt="">
+      e-KIR Kapal
+    </a>
+  </nav>
+
+  <div class="container-fluid">
+    <h1 class="text-uppercase text-center">Informasi hasil pemeriksaan kapal <%= data.namaKapal %></h1>
+
+    <div class="container">
+
+      <table class="table">
+        <tbody>
+          <tr>
+            <td>Hasil pemeriksaan</td>
+            <td id="hasil">
+              <%
+                if(data.hasil){
+                  %> Lulus
+              <%} else {
+                  %> Tidak lulus
+              <%}
+              %>
+            </td>
+          </tr>
+
+          <tr>
+            <td>Tanggal pemeriksaan</td>
+            <td><%= tanggal.getUTCDate()+ "-" + (tanggal.getMonth()+1) + "-" + tanggal.getFullYear()%></td>
+          </tr>
+
+          <tr>
+            <td>Waktu pemeriksaan</td>
+            <td><%=`${namaHari}, ${tanggal.getHours()}:${tanggal.getMinutes()}:${tanggal.getSeconds()}`%></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="row">
+        <div class="col-lg-12 col-md-12">
+          <table class="table">
+            <thead class="thead-dark">
+              <tr>
+                <th colspan="3" class="bg-info">Data Kapal</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Nama Kapal </td>
+                <td><%= data.namaKapal %></td>
+              </tr>
+
+              <tr>
+                <td>Bendera </td>
+                <td><%= data.bendera %></td>
+              </tr>
+
+              <tr>
+                <td>Gross ton </td>
+                <td><%= data.grossTon %></td>
+              </tr>
+
+              <tr>
+                <td>Nama nakhoda</td>
+                <td><%= data.namaNakhoda %></td>
+              </tr>
+
+              <tr>
+                <td>IMO Number</td>
+                <td><%= data.IMO %></td>
+              </tr>
+
+              <tr>
+                <td>Jumlah ABK</td>
+                <td><%= data.JumlahABK %></td>
+              </tr>
+
+              <tr>
+                <td>Call sign</td>
+                <td><%= data.JumlahABK %></td>
+              </tr>
+
+              <tr>
+                <td>Tahun pembuatan</td>
+                <td><%= data.tahunPembuatan %></td>
+              </tr>
+
+              <tr>
+                <td>Pemilik</td>
+                <td><%= data.pemilik %></td>
+              </tr>
+
+              <tr>
+                <td>Jenis kapal</td>
+                <td><%= data.jenisKapal %></td>
+              </tr>
+
+            </tbody>
+
+            <thead class="thead-dark">
+              <tr>
+                <th colspan="3" class="bg-info">Pemeriksaan Nautis, Teknis, dan Radio </th>
+              </tr>
+              <tr>
+                <th>Bagian pemeriksaan</th>
+                <th>Hasil pemeriksaan</th>
+                <th>Keterangan</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Peralatan navigasi </td>
+                <td><%= data.peralatanNavigasi %></td>
+                <% 
+                if (data.peralatanNavigasiket){
+                  %>
+                <td><%= data.peralatanNavigasiket %></td>
+                <% }
+                %>
+              </tr>
+              <tr>
+                <td>Peralatan radio </td>
+                <td><%= data.peralatanRadio %></td>
+                <% 
+                if (data.peralatanRadioket){
+                  %>
+                <td><%= data.peralatanRadioket %></td>
+                <% }
+                %>
+              </tr>
+              <tr>
+                <td>Alat-alat keselamatan </td>
+                <td><%= data.alatKeselamatan %></td>
+                <% 
+                if (data.alatKeselamatanket){
+                  %>
+                <td><%= data.alatKeselamatanket %></td>
+                <% }
+                %>
+              </tr>
+              <tr>
+                <td>Alat-alat pemadam kebakaran</td>
+                <td><%= data.alatPemadam %></td>
+                <% 
+                if (data.alatPemadamket){
+                  %>
+                <td><%= data.alatPemadamket %></td>
+                <% }
+                %>
+              </tr>
+              <tr>
+                <td>Pintu-pintu dan bukaan-bukaan</td>
+                <td><%= data.pintuBukaan %></td>
+                <% 
+                if (data.pintuBukaanket){
+                  %>
+                <td><%= data.pintuBukaanket %></td>
+                <% }
+                %>
+              </tr>
+              <tr>
+                <td>Permesinan dan perlistrikan kapal perikanan</td>
+                <td><%= data.mesinListrik %></td>
+                <% 
+                if (data.mesinListrikket){
+                  %>
+                <td><%= data.mesinListrikket %></td>
+                <% }
+                %>
+              </tr>
+              <tr>
+                <td>Peralatan pencegahan pencemaran</td>
+                <td><%= data.alatPencegah %></td>
+                <% 
+                if (data.alatPencegahket){
+                  %>
+                <td><%= data.alatPencegahket %></td>
+                <% }
+                %>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="col-lg-12 col-md-12">
+          <table class="table">
+            <thead class="thead-dark">
+              <tr>
+                <th colspan="3" class="bg-info">Pemeriksaan pengawakan</th>
+              <tr>
+                <th>Bagian pemeriksaan</th>
+                <th>Hasil pemeriksaan</th>
+                <th>Keterangan</th>
+              </tr>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Nakhoda </td>
+                <td><%= data.nakhoda %></td>
+                <% 
+                if (data.nakhodaket){
+                  %>
+                <td><%= data.nakhodaket %></td>
+                <%  }
+                %>
+              </tr>
+              <tr>
+                <td>Jumlah perwira </td>
+                <td><%= data.jumlahPerwira %></td>
+                <% 
+                if (data.jumlahPerwiraket){
+                  %>
+                <td><%= data.jumlahPerwiraket %></td>
+                <%  }
+                %>
+              </tr>
+              <tr>
+                <td>Jumlah ABK </td>
+                <td><%= data.jumlahABK %></td>
+                <% 
+                if (data.jumlahABKket){
+                  %>
+                <td><%= data.jumlahABKket %></td>
+                <%  }
+                %>
+              </tr>
+            </tbody>
+
+            <thead class="thead-dark">
+              <tr>
+                <th class="bg-info" colspan="3">Pemeriksaan alat penangkapan ikan</th>
+              </tr>
+              <tr>
+                <th>Bagian pemeriksaan</th>
+                <th>Hasil pemeriksaan</th>
+                <th>Keterangan</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Jenis alat tangkap</td>
+                <td><%= data.jenisAlatTangkap %></td>
+                <% 
+                if (data.jenisAlatTangkapket){
+                  %>
+                <td><%= data.jenisAlatTangkapket %></td>
+                <%  }
+                %>
+              </tr>
+              <tr>
+                <td>Jumlah alat penangkap ikan</td>
+                <td><%= data.jumlahAPI %></td>
+                <% 
+                if (data.jumlahAPIket){
+                  %>
+                <td><%= data.jumlahAPIket %></td>
+                <%  }
+                %>
+              </tr>
+              <tr>
+                <td>Jumlah alat bantu penangkap ikan</td>
+                <td><%= data.jumlahABPI %></td>
+                <% 
+                if (data.jumlahABPIket){
+                  %>
+                <td><%= data.jumlahABPIket %></td>
+                <%  }
+                %>
+              </tr>
+              <tr>
+                <td>Spesifikasi alat penangkap ikan</td>
+                <td><%= data.spekAPI %></td>
+                <% 
+                if (data.spekAPIket){
+                  %>
+                <td><%= data.spekAPIket %></td>
+                <%  }
+                %>
+              </tr>
+              <tr>
+                <td>Spesifikasi alat bantu penangkap ikan</td>
+                <td><%= data.spekABPI %></td>
+                <% 
+                if (data.spekABPIket){
+                  %>
+                <td><%= data.spekABPIket %></td>
+                <%  }
+                %>
+              </tr>
+              <tr>
+                <td>Palkah dan jenis pendingin</td>
+                <td><%= data.palkah %></td>
+                <% 
+                if (data.palkahket){
+                  %>
+                <td><%= data.palkahket %></td>
+                <%  }
+                %>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
+  </script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
+  </script>
+
+  <script>
+    let hasil = document.querySelector('#hasil')
+    console.log()
+    if (hasil.textContent.toLowerCase().includes('tidak lulus')) {
+      hasil.parentNode.setAttribute('class', 'bg-danger text-light')
+    } else {
+      hasil.parentNode.setAttribute('class', 'bg-success text-light')
+    }
+  </script>
+</body>
+
+</html>
