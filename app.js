@@ -264,6 +264,8 @@ app.get("/info-hasil-periksa/:id",function(req,res) {
 	})
 })
 
+
+
 app.get('/logout', function(req, res){
 	req.session.destroy(function(){
 	   console.log("user logged out.")
