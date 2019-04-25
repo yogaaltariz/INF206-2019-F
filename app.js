@@ -232,6 +232,32 @@ app.get('/',checkSignIn,function(req, res,next) {
 		res.render('home',{id: req.session.user._id, nama: data.nama})
 	})
 	
+app.get('/form',checkSignIn,function (req,res,next) {
+	res.render('form',{id: req.session.user._id})
+	// res.sendFile(path.resolve(__dirname+'/views/form.ejs'))
+})
+app.post("/form", function(req,res){
+	const result = (obj) => {
+		for(key in obj){
+			if(obj[key] === 'Tidak sesuai persyaratan'){
+				return false
+			}
+		}
+		return true
+	}
+	const tanggal = new Date()
+	data = req.body
+	data.tanggalPeriksa = tanggal
+	data.hasil = result(req.body)
+	console.log(data)
+	const dataKir = new DataKir(data)
+	dataKir.save().then(item => {
+		res.redirect('/riwayat')
+	}).catch(err => {
+		res.send(err)
+	})
+})
+	
     // res.sendFile(path.resolve(__dirname +'/views/home.ejs'));
 });
 
