@@ -230,8 +230,10 @@ function checkSignIn(req, res,next){
 
 //set route
 app.get('/',checkSignIn,function(req, res,next) {
+	petugas.findOne({_id : req.session.user._id}, function(err,data){
+		res.render('home',{id: req.session.user._id, nama: data.nama})
+	})
 	
-	res.render('home',{id: req.session.user._id})
     // res.sendFile(path.resolve(__dirname +'/views/home.ejs'));
 });
 
@@ -278,6 +280,21 @@ app.get('/logout', function(req, res){
 	res.redirect('/login');
  });
 
+app.get('/riwayat',checkSignIn,function (req,res,next) {
+
+	DataKir.find(function(err,data){
+		if(err){
+			res.send(err)
+		} else {
+			let dataDB = JSON.stringify(data)
+			// dataDB = JSON.parse(dataDB)
+			// console.log(dataDB.length)
+			res.render('riwayat', {data: dataDB,id: req.session.user._id})
+		}
+	})
+	// res.sendFile(path.resolve(__dirname+'/views/riwayat.ejs'))
+})
+
 
 
 
@@ -287,6 +304,11 @@ app.use('/', function(err, req, res, next){
 	   res.redirect('/login');
 });
 
+app.use('/', function(err, req, res, next){
+	console.log(err);
+	   //User should be authenticated! Redirect him to log in.
+	   res.redirect('/login');
+});
 
 // localhost:3000
 app.listen(3000, function () {
