@@ -4,8 +4,6 @@ const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 
 const app = express()
-
-//session
 app.use(session({
     secret: "rahasia",
     resave: true,
@@ -272,6 +270,13 @@ app.get("/info-hasil-periksa/:id",function(req,res) {
 })
 
 
+
+app.get('/logout', function(req, res){
+	req.session.destroy(function(){
+	   console.log("user logged out.")
+	});
+	res.redirect('/login');
+ });
 
 
 
