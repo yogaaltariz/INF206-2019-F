@@ -4,6 +4,11 @@ const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 
 const app = express()
+app.use(session({
+    secret: "rahasia",
+    resave: true,
+    saveUninitialized: true
+}));
 
 //set view engine menggunakan ejs
 app.set("view engine","ejs")
@@ -209,16 +214,93 @@ petugasSchema = new mongoose.Schema({
 const DataKir = mongoose.model("DataKir",ekirSchema)
 const petugas = mongoose.model("petugas",petugasSchema)
 
+//function
+function checkSignIn(req, res,next){
+	if(req.session.user){
+	   next()     //If session exists, proceed to page
+	} else {
+	   const err = new Error("Not logged in!")
+	   console.log(req.session.user)
+	   next(err) //Error, trying to access unauthorized page!
+	}
+}
+
 
 //set route
 app.get('/',checkSignIn,function(req, res,next) {
+	petugas.findOne({_id : req.session.user._id}, function(err,data){
+		res.render('home',{id: req.session.user._id, nama: data.nama})
+	})
 	
-	res.render('home',{id: req.session.user._id})
     // res.sendFile(path.resolve(__dirname +'/views/home.ejs'));
 });
 
+app.get('/login',function (req,res) {
+	res.render('login',{message : ""})
+})
+
+app.post('/login', function(req, res){
+
+	if(!req.body.username || !req.body.password){
+	   res.render('login', {message: "Please enter both username and password"});
+	} else {
+		petugas.findOne({username: req.body.username},function(err,data){
+			if (err) {
+				res.render('login', {message: "Username atau id salah"})
+			} else {
+				if (data.username === req.body.username && data.password === req.body.password) {
+					req.session.user = data
+					res.redirect("/")
+				} else {
+					res.render('login', {message: "Username atau id salah"})
+				}
+			}
+		})   
+	}
+});
+
+app.get("/info-hasil-periksa/:id",function(req,res) {
+
+	DataKir.find({_id: req.param("id")}, function (err,data){
+		if (err) {
+			res.send(err)
+		} else {
+			const doc = JSON.stringify(data)
+			res.render('info-hasil-periksa',{data: doc })
+		}
+	})
+})
 
 
+
+app.get('/logout', function(req, res){
+	req.session.destroy(function(){
+	   console.log("user logged out.")
+	});
+	res.redirect('/login');
+ });
+
+app.get('/riwayat',checkSignIn,function (req,res,next) {
+
+	DataKir.find(function(err,data){
+		if(err){
+			res.send(err)
+		} else {
+			let dataDB = JSON.stringify(data)
+			// dataDB = JSON.parse(dataDB)
+			// console.log(dataDB.length)
+			res.render('riwayat', {data: dataDB,id: req.session.user._id})
+		}
+	})
+	// res.sendFile(path.resolve(__dirname+'/views/riwayat.ejs'))
+})
+
+
+app.use('/', function(err, req, res, next){
+	console.log(err);
+	   //User should be authenticated! Redirect him to log in.
+	   res.redirect('/login');
+});
 
 
 // localhost:3000
