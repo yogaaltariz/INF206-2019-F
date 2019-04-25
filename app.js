@@ -5,6 +5,13 @@ const bodyParser = require('body-parser')
 
 const app = express()
 
+//session
+app.use(session({
+    secret: "rahasia",
+    resave: true,
+    saveUninitialized: true
+}));
+
 //set view engine menggunakan ejs
 app.set("view engine","ejs")
 
@@ -264,21 +271,10 @@ app.get("/info-hasil-periksa/:id",function(req,res) {
 	})
 })
 
-app.get('/logout', function(req, res){
-	req.session.destroy(function(){
-	   console.log("user logged out.")
-	});
-	res.redirect('/login');
- });
 
 
 
 
-app.use('/', function(err, req, res, next){
-	console.log(err);
-	   //User should be authenticated! Redirect him to log in.
-	   res.redirect('/login');
-});
 
 
 // localhost:3000
