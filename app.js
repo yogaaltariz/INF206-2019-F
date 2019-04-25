@@ -274,6 +274,12 @@ app.get('/logout', function(req, res){
 
 
 
+app.use('/', function(err, req, res, next){
+	console.log(err);
+	   //User should be authenticated! Redirect him to log in.
+	   res.redirect('/login');
+});
+
 
 // localhost:3000
 app.listen(3000, function () {
