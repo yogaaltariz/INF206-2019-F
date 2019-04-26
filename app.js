@@ -228,8 +228,36 @@ function checkSignIn(req, res,next){
 
 //set route
 app.get('/',checkSignIn,function(req, res,next) {
+	petugas.findOne({_id : req.session.user._id}, function(err,data){
+		res.render('home',{id: req.session.user._id, nama: data.nama})
+	})
 	
-	res.render('home',{id: req.session.user._id})
+app.get('/form',checkSignIn,function (req,res,next) {
+	res.render('form',{id: req.session.user._id})
+	// res.sendFile(path.resolve(__dirname+'/views/form.ejs'))
+})
+app.post("/form", function(req,res){
+	const result = (obj) => {
+		for(key in obj){
+			if(obj[key] === 'Tidak sesuai persyaratan'){
+				return false
+			}
+		}
+		return true
+	}
+	const tanggal = new Date()
+	data = req.body
+	data.tanggalPeriksa = tanggal
+	data.hasil = result(req.body)
+	console.log(data)
+	const dataKir = new DataKir(data)
+	dataKir.save().then(item => {
+		res.redirect('/riwayat')
+	}).catch(err => {
+		res.send(err)
+	})
+})
+	
     // res.sendFile(path.resolve(__dirname +'/views/home.ejs'));
 });
 
@@ -278,8 +306,27 @@ app.get('/logout', function(req, res){
 	res.redirect('/login');
  });
 
+app.get('/riwayat',checkSignIn,function (req,res,next) {
+
+	DataKir.find({}).sort({tanggalPeriksa : 'descending'}).exec(function(err,data){
+		if(err){
+			res.send(err)
+		} else {
+			let dataDB = JSON.stringify(data)
+			// dataDB = JSON.parse(dataDB)
+			// console.log(dataDB.length)
+			res.render('riwayat', {data: dataDB,id: req.session.user._id})
+		}
+	})
+	// res.sendFile(path.resolve(__dirname+'/views/riwayat.ejs'))
+})
 
 
+app.use('/', function(err, req, res, next){
+	console.log(err);
+	   //User should be authenticated! Redirect him to log in.
+	   res.redirect('/login');
+});
 
 
 // localhost:3000
