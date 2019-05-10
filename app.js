@@ -308,7 +308,7 @@ app.get('/logout', function(req, res){
 
 app.get('/riwayat',checkSignIn,function (req,res,next) {
 
-	DataKir.find(function(err,data){
+	DataKir.find({}).sort({tanggalPeriksa : 'descending'}).exec(function(err,data){
 		if(err){
 			res.send(err)
 		} else {
