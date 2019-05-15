@@ -236,7 +236,7 @@ app.get('/',checkSignIn,function(req, res,next) {
  * Fungsi ini digunakan untuk merender halaman form
  *
  */
-app.get('/form',checkSignIn,function (req,res,next) {
+app.get('/form',checkSignIn,(req,res,next) => {
 	res.render('form',{id: req.session.user._id})
 	// res.sendFile(path.resolve(__dirname+'/views/form.ejs'))
 })
