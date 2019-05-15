@@ -240,6 +240,11 @@ app.get('/form',checkSignIn,function (req,res,next) {
 	res.render('form',{id: req.session.user._id})
 	// res.sendFile(path.resolve(__dirname+'/views/form.ejs'))
 })
+
+/**
+ * Fungsi ini digunakan untuk mengembalikan nilai inputan form ke dalam database
+ *
+ */
 app.post("/form", function(req,res){
 	const result = (obj) => {
 		for(key in obj){
