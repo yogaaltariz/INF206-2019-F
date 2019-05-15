@@ -220,7 +220,7 @@ const petugas = mongoose.model("petugas",petugasSchema)
  * @param {*} res 
  * @param {*} next 
  */
- checkSignIn (req, res,next) =>{
+ checkSignIn (req, res,next) => {
 	if(req.session.user){
 	   next()     //If session exists, proceed to page
 	} else {
@@ -233,11 +233,11 @@ const petugas = mongoose.model("petugas",petugasSchema)
 
 //set route
 app.get('/',checkSignIn, (req, res,next) =>{
-	petugas.findOne({_id : req.session.user._id},=> (err,data) {
+	petugas.findOne({_id : req.session.user._id}, (err,data) => {
 		res.render('home',{id: req.session.user._id, nama: data.nama})
 	})
 	
-app.get('/form',checkSignIn,=> (req,res,next) {
+app.get('/form',checkSignIn, (req,res,next) => {
 	res.render('form',{id: req.session.user._id})
 	// res.sendFile(path.resolve(__dirname+'/views/form.ejs'))
 })
@@ -266,11 +266,11 @@ app.post("/form", (req,res)=>{
     // res.sendFile(path.resolve(__dirname +'/views/home.ejs'));
 });
 
-app.get('/login',=> (req,res) {
+app.get('/login',(req,res) => {
 	res.render('login',{message : ""})
 })
 
-app.post('/login', =>(req, res){
+app.post('/login', (req, res) =>{
 
 	if(!req.body.username || !req.body.password){
 	   res.render('login', {message: "Please enter both username and password"});
