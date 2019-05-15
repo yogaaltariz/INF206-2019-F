@@ -232,6 +232,10 @@ app.get('/',checkSignIn,function(req, res,next) {
 		res.render('home',{id: req.session.user._id, nama: data.nama})
 	})
 	
+/**
+ * Fungsi ini digunakan untuk merender halaman form
+ *
+ */
 app.get('/form',checkSignIn,function (req,res,next) {
 	res.render('form',{id: req.session.user._id})
 	// res.sendFile(path.resolve(__dirname+'/views/form.ejs'))
