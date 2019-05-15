@@ -279,7 +279,7 @@ app.post('/login', (req, res) => {
 	if(!req.body.username || !req.body.password){
 	   res.render('login', {message: "Please enter both username and password"});
 	} else {
-		petugas.findOne({username: req.body.username},function(err,data){
+		petugas.findOne({username: req.body.username},(err,data) => {
 			if (err) {
 				res.render('login', {message: "Username atau id salah"})
 			} else {
@@ -313,7 +313,7 @@ app.get("/info-hasil-periksa/:id",function(req,res) {
 */
 app.get('/logout', (req, res) => {
 	//hapus session
-	req.session.destroy(function(){
+	req.session.destroy( () => {
 	   console.log("user logged out.")
 	});
 	res.redirect('/login');
@@ -335,7 +335,7 @@ app.get('/riwayat',checkSignIn,function (req,res,next) {
 })
 
 
-app.use('/', function(err, req, res, next){
+app.use('/', (err, req, res, next) =>{
 	console.log(err);
 	   //User should be authenticated! Redirect him to log in.
 	   res.redirect('/login');
