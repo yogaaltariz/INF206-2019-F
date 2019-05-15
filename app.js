@@ -220,7 +220,7 @@ const petugas = mongoose.model("petugas",petugasSchema)
  * @param {*} res 
  * @param {*} next 
  */
-function checkSignIn(req, res,next){
+ checkSignIn (req, res,next) =>{
 	if(req.session.user){
 	   next()     //If session exists, proceed to page
 	} else {
@@ -232,16 +232,16 @@ function checkSignIn(req, res,next){
 
 
 //set route
-app.get('/',checkSignIn, function (req, res,next) {
-	petugas.findOne({_id : req.session.user._id},function (err,data) {
+app.get('/',checkSignIn, (req, res,next) =>{
+	petugas.findOne({_id : req.session.user._id},=> (err,data) {
 		res.render('home',{id: req.session.user._id, nama: data.nama})
 	})
 	
-app.get('/form',checkSignIn,function (req,res,next) {
+app.get('/form',checkSignIn,=> (req,res,next) {
 	res.render('form',{id: req.session.user._id})
 	// res.sendFile(path.resolve(__dirname+'/views/form.ejs'))
 })
-app.post("/form", function(req,res){
+app.post("/form", (req,res)=>{
 	const result = (obj) => {
 		for(key in obj){
 			if(obj[key] === 'Tidak sesuai persyaratan'){
@@ -266,11 +266,11 @@ app.post("/form", function(req,res){
     // res.sendFile(path.resolve(__dirname +'/views/home.ejs'));
 });
 
-app.get('/login',function (req,res) {
+app.get('/login',=> (req,res) {
 	res.render('login',{message : ""})
 })
 
-app.post('/login', function(req, res){
+app.post('/login', =>(req, res){
 
 	if(!req.body.username || !req.body.password){
 	   res.render('login', {message: "Please enter both username and password"});
@@ -290,9 +290,9 @@ app.post('/login', function(req, res){
 	}
 });
 
-app.get("/info-hasil-periksa/:id",function(req,res) {
+app.get("/info-hasil-periksa/:id",(req,res) =>{
 
-	DataKir.find({_id: req.param("id")}, function (err,data){
+	DataKir.find({_id: req.param("id")}, (err,data)=>{
 		if (err) {
 			res.send(err)
 		} else {
@@ -304,16 +304,16 @@ app.get("/info-hasil-periksa/:id",function(req,res) {
 
 
 
-app.get('/logout', function(req, res){
+app.get('/logout', (req, res) =>{
 	req.session.destroy(function(){
 	   console.log("user logged out.")
 	});
 	res.redirect('/login');
  });
 
-app.get('/riwayat',checkSignIn,function (req,res,next) {
+app.get('/riwayat',checkSignIn, (req,res,next) =>{
 
-	DataKir.find({}).sort({tanggalPeriksa : 'descending'}).exec(function(err,data){
+	DataKir.find({}).sort({tanggalPeriksa : 'descending'}).exec((err,data)=>{
 		if(err){
 			res.send(err)
 		} else {
@@ -327,7 +327,7 @@ app.get('/riwayat',checkSignIn,function (req,res,next) {
 })
 
 
-app.use('/', function(err, req, res, next){
+app.use('/', (err, req, res, next) =>{
 	console.log(err);
 	   //User should be authenticated! Redirect him to log in.
 	   res.redirect('/login');
@@ -335,6 +335,6 @@ app.use('/', function(err, req, res, next){
 
 
 // localhost:3000
-app.listen(3000, function () {
+app.listen(3000,  ()=> {
 	console.log('Server started on port 3000')
 })
