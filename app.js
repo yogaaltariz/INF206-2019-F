@@ -261,11 +261,20 @@ app.post("/form", function(req,res){
     // res.sendFile(path.resolve(__dirname +'/views/home.ejs'));
 });
 
-app.get('/login',function (req,res) {
+/**
+*route method get untuk render halaman login
+*localhost:3000/login
+*/
+app.get('/login',(req,res) => {
 	res.render('login',{message : ""})
 })
 
-app.post('/login', function(req, res){
+
+/**
+*route method post untuk kirim data username dan password untuk di cek
+*localhost:3000/login
+*/
+app.post('/login', (req, res) => {
 
 	if(!req.body.username || !req.body.password){
 	   res.render('login', {message: "Please enter both username and password"});
@@ -298,8 +307,12 @@ app.get("/info-hasil-periksa/:id",function(req,res) {
 })
 
 
-
-app.get('/logout', function(req, res){
+/** 
+*route method get untuk menghapus session ketika logout
+*localhost:3000/logout
+*/
+app.get('/logout', (req, res) => {
+	//hapus session
 	req.session.destroy(function(){
 	   console.log("user logged out.")
 	});
