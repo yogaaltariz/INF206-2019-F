@@ -56,3 +56,12 @@ input {
 #right-side {
 	background-size: cover
 }
+
+.nav-item:hover{
+	background-color: deepskyblue;
+}
+
+.table-item:hover{
+	background-color: dimgray;
+	color: beige;
+}
