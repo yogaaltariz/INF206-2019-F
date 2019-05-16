@@ -1,7 +1,10 @@
+require('dotenv').config()
 const express = require('express')
 const session = require('express-session')
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
+const bcrypt = require('bcryptjs')
+const saltRound = 10
 
 const app = express()
 app.use(session({
@@ -231,18 +234,28 @@ const checkSignIn = (req, res,next) => {
 }
 
 
-//set route
-app.get('/',checkSignIn, (req, res,next) =>{
+/**
+ * fungsi untuk render halaman home
+ */
+app.get('/',checkSignIn,(req, res,next) => {
 	petugas.findOne({_id : req.session.user._id}, (err,data) => {
 		res.render('home',{id: req.session.user._id, nama: data.nama})
 	})
-
-app.get('/form',checkSignIn, (req,res,next) => {
+	
+/**
+ * Fungsi ini digunakan untuk merender halaman form
+ *
+*/
+app.get('/form',checkSignIn,(req,res,next) => {
 	res.render('form',{id: req.session.user._id})
 	// res.sendFile(path.resolve(__dirname+'/views/form.ejs'))
 })
 
-app.post("/form", (req,res)=>{
+/**
+ * Fungsi ini digunakan untuk mengembalikan nilai inputan form ke dalam database
+ *
+ */
+app.post("/form", (req,res) => {
 	const result = (obj) => {
 		for(key in obj){
 			if(obj[key] === 'Tidak sesuai persyaratan'){
@@ -267,16 +280,25 @@ app.post("/form", (req,res)=>{
     // res.sendFile(path.resolve(__dirname +'/views/home.ejs'));
 });
 
+/**
+*route method get untuk render halaman login
+*localhost:3000/login
+*/
 app.get('/login',(req,res) => {
 	res.render('login',{message : ""})
 })
 
-app.post('/login', (req, res) =>{
+
+/**
+*route method post untuk kirim data username dan password untuk di cek
+*localhost:3000/login
+*/
+app.post('/login', (req, res) => {
 
 	if(!req.body.username || !req.body.password){
 	   res.render('login', {message: "Please enter both username and password"});
 	} else {
-		petugas.findOne({username: req.body.username},function(err,data){
+		petugas.findOne({username: req.body.username},(err,data) => {
 			if (err) {
 				res.render('login', {message: "Username atau id salah"})
 			} else {
@@ -304,17 +326,21 @@ app.get("/info-hasil-periksa/:id",(req,res) =>{
 })
 
 
-
-app.get('/logout', (req, res) =>{
-	req.session.destroy(function(){
+/** 
+*route method get untuk menghapus session ketika logout
+*localhost:3000/logout
+*/
+app.get('/logout', (req, res) => {
+	//hapus session
+	req.session.destroy( () => {
 	   console.log("user logged out.")
 	});
 	res.redirect('/login');
  });
 
-app.get('/riwayat',checkSignIn, (req,res,next) =>{
+app.get('/riwayat',checkSignIn,function (req,res,next) {
 
-	DataKir.find({}).sort({tanggalPeriksa : 'descending'}).exec((err,data)=>{
+	DataKir.find({}).sort({tanggalPeriksa : 'descending'}).exec(function(err,data){
 		if(err){
 			res.send(err)
 		} else {
