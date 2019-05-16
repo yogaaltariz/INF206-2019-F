@@ -8,10 +8,11 @@ const saltRound = 10
 
 const app = express()
 app.use(session({
-    secret: "rahasia",
+    secret: process.env.SECRET,
     resave: true,
     saveUninitialized: true
 }));
+
 
 //set view engine menggunakan ejs
 app.set("view engine","ejs")
@@ -214,6 +215,7 @@ petugasSchema = new mongoose.Schema({
     nama : String
 })
 
+
 const DataKir = mongoose.model("DataKir",ekirSchema)
 const petugas = mongoose.model("petugas",petugasSchema)
 
@@ -313,6 +315,7 @@ app.post('/login', (req, res) => {
 	}
 });
 
+//untuk render halaman hasil periksa
 app.get("/info-hasil-periksa/:id",(req,res) =>{
 
 	DataKir.find({_id: req.param("id")}, (err,data)=>{
