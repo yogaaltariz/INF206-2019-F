@@ -65,7 +65,7 @@ const addEventToTidak = (fieldName) => {
 		let element = radio[index];
 
 		if (element.value === 'tidak'){
-			element.addEventListener('change',function (e) {
+			element.addEventListener('change', (e) => {
 				if(e.target.checked){
 					// console.log();
 					document.querySelector(`#${fieldName}-div`).removeAttribute('class')
@@ -73,7 +73,7 @@ const addEventToTidak = (fieldName) => {
 			})
 		} 
 		else {
-			element.addEventListener('click',function (e) {
+			element.addEventListener('click', (e) => {
 				if(e.target.checked){
 					document.querySelector(`#${fieldName}-div`).setAttribute('class','d-none')
 					
