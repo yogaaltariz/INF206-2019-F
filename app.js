@@ -228,16 +228,20 @@ function checkSignIn(req, res,next){
 }
 
 
-//set route
-app.get('/',checkSignIn,function(req, res,next) {
-	petugas.findOne({_id : req.session.user._id}, function(err,data){
+/**
+ * fungsi untuk render halaman home
+ */
+app.get('/',checkSignIn,(req, res,next) => {
+	petugas.findOne({_id : req.session.user._id}, (err,data) => {
 		res.render('home',{id: req.session.user._id, nama: data.nama})
 	})
-	
+
 app.get('/form',checkSignIn,function (req,res,next) {
 	res.render('form',{id: req.session.user._id})
 	// res.sendFile(path.resolve(__dirname+'/views/form.ejs'))
 })
+
+
 app.post("/form", function(req,res){
 	const result = (obj) => {
 		for(key in obj){
