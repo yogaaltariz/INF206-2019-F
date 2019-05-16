@@ -1,7 +1,10 @@
+require('dotenv').config()
 const express = require('express')
 const session = require('express-session')
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
+const bcrypt = require('bcryptjs')
+const saltRound = 10
 
 const app = express()
 app.use(session({
@@ -226,9 +229,11 @@ function checkSignIn(req, res,next){
 }
 
 
-//set route
-app.get('/',checkSignIn,function(req, res,next) {
-	petugas.findOne({_id : req.session.user._id}, function(err,data){
+/**
+ * fungsi untuk render halaman home
+ */
+app.get('/',checkSignIn,(req, res,next) => {
+	petugas.findOne({_id : req.session.user._id}, (err,data) => {
 		res.render('home',{id: req.session.user._id, nama: data.nama})
 	})
 	
@@ -270,16 +275,25 @@ app.post("/form", (req,res) => {
     // res.sendFile(path.resolve(__dirname +'/views/home.ejs'));
 });
 
-app.get('/login',function (req,res) {
+/**
+*route method get untuk render halaman login
+*localhost:3000/login
+*/
+app.get('/login',(req,res) => {
 	res.render('login',{message : ""})
 })
 
-app.post('/login', function(req, res){
+
+/**
+*route method post untuk kirim data username dan password untuk di cek
+*localhost:3000/login
+*/
+app.post('/login', (req, res) => {
 
 	if(!req.body.username || !req.body.password){
 	   res.render('login', {message: "Please enter both username and password"});
 	} else {
-		petugas.findOne({username: req.body.username},function(err,data){
+		petugas.findOne({username: req.body.username},(err,data) => {
 			if (err) {
 				res.render('login', {message: "Username atau id salah"})
 			} else {
@@ -307,9 +321,13 @@ app.get("/info-hasil-periksa/:id",function(req,res) {
 })
 
 
-
-app.get('/logout', function(req, res){
-	req.session.destroy(function(){
+/** 
+*route method get untuk menghapus session ketika logout
+*localhost:3000/logout
+*/
+app.get('/logout', (req, res) => {
+	//hapus session
+	req.session.destroy( () => {
 	   console.log("user logged out.")
 	});
 	res.redirect('/login');
@@ -331,7 +349,7 @@ app.get('/riwayat',checkSignIn,function (req,res,next) {
 })
 
 
-app.use('/', function(err, req, res, next){
+app.use('/', (err, req, res, next) =>{
 	console.log(err);
 	   //User should be authenticated! Redirect him to log in.
 	   res.redirect('/login');
