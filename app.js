@@ -247,8 +247,45 @@ const checkSignIn = (req, res,next) => {
  * fungsi untuk render halaman home
  */
 app.get('/',checkSignIn,(req, res,next) => {
-	petugas.findOne({_id : req.session.user._id}, (err,data) => {
-		res.render('home',{id: req.session.user._id, nama: data.nama})
+	petugas.findOne({_id : req.session.user._id}, function(err,data){
+		if (err) {
+			console.log(err)
+		} else {
+			// const user = JSON.stringify(data)
+			DataKir.find({idPetugas: req.session.user._id}, function(err,foundData){
+				if(err) {
+					console.log(err)
+				} else {
+					const dataHariIni = foundData.filter(function (item){
+						const day = new Date(item.tanggalPeriksa)
+						const today = new Date()
+						if (day.getDate() === today.getDate()) {
+							return item
+						}
+					})
+
+					const dataBulanIni = foundData.filter(function (item){
+						const day = new Date(item.tanggalPeriksa)
+						const today = new Date()
+						if (day.getMonth() === today.getMonth()) {
+							return item
+						}
+					})
+
+					const kapalLulus = foundData.filter(function (item){
+						return item.hasil
+					})
+
+					const kapalTidakLulus = foundData.filter(function (item){
+						return !(item.hasil)
+					})
+					const num = foundData.length
+					res.render('home',{id: req.session.user._id, nama: data.nama,jumlah: num,dataHariIni: dataHariIni.length,dataBulanIni:dataBulanIni.length,kapalLulus:kapalLulus.length,kapalTidakLulus:kapalTidakLulus.length})
+				}
+			})
+			
+		}
+		
 	})
 })
 
@@ -307,13 +344,23 @@ app.get('/login',(req,res) => {
 *localhost:3000/login
 */
 app.post('/login', (req, res) => {
+	const username = req.body.username
+	const password = req.body.password
 
-	if(!req.body.username || !req.body.password){
-	   res.render('login', {message: "Please enter both username and password"});
-	} else {
-		petugas.findOne({username: req.body.username},(err,data) => {
-			if (err) {
-				res.render('login', {message: "Username atau id salah"})
+	petugas.findOne({username: username},function(err,foundUser){
+		if (err) {
+			console.log(err)
+		} else {
+			if (foundUser) {
+				bcrypt.compare(password,foundUser.password,function(err,result){
+					if (result === true) {
+						req.session.user = foundUser
+						// console.log(foundUser)			
+						res.redirect('/')
+					} else{
+						res.render('login', {message: "Username atau password salah"})				
+					}
+				})
 			} else {
 				res.render('login', {message: "Username atau password salah"})
 			}
@@ -346,9 +393,9 @@ app.get('/logout', (req, res) => {
 	res.redirect('/login');
  });
 
-app.get('/riwayat',checkSignIn,function (req,res,next) {
+app.get('/riwayat',checkSignIn, (req,res,next) => {
 
-	DataKir.find({idPetugas: req.session.user._id}).sort({tanggalPeriksa : 'descending'}).exec(function(err,data){
+	DataKir.find({idPetugas: req.session.user._id}).sort({tanggalPeriksa : 'descending'}).exec((err,data)=>{
 		if(err){
 			res.send(err)
 		} else {
@@ -360,16 +407,16 @@ app.get('/riwayat',checkSignIn,function (req,res,next) {
 	})
 })
 
-app.post('/:id',function(req,res){
+app.post('/:id',(req,res) =>{
 	// console.log(req.body,req.params.id)
-	petugas.findOne({_id: req.params.id},function(err,foundUser){
+	petugas.findOne({_id: req.params.id},(err,foundUser) =>{
 		if (err) {
 			console.log(err)
 		} else {
-			bcrypt.compare(req.body.password,foundUser.password,function(err,result){
+			bcrypt.compare(req.body.password,foundUser.password,(err,result) =>{
 				if (result === true) {
 					if (req.body.password1 === req.body.password2) {
-						bcrypt.hash(req.body.password1,saltRounds,function(err,hash){
+						bcrypt.hash(req.body.password1,saltRounds,(err,hash) =>{
 							foundUser.password = hash
 							foundUser.save(function (err){
 								if(err){

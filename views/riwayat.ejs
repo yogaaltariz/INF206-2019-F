@@ -26,13 +26,13 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <ul class="navbar-nav ml-auto">
-          <li class="nav-item ">
+          <li class="nav-item active">
             <a class="nav-link" href="/">Home</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="/form">Form</a>
           </li>
-          <li class="nav-item active">
+          <li class="nav-item">
             <a class="nav-link" href="/riwayat">Riwayat</a>
           </li>
           <li class="nav-item">
@@ -43,15 +43,6 @@
     </nav>
 
     <div class="container">
-        <% 
-        if(messages.success){
-          %>
-          <div class="alert alert-success" role="alert">
-            <%= messages.success %>
-          </div>
-        <%
-        }
-      %>
       <h2 class="text-center">RIWAYAT PENGECEKAN KAPAL</h2>
 
       <table class="table text-center">
@@ -76,7 +67,7 @@
             data.forEach((item,index) => {
               let tanggal = new Date(item.tanggalPeriksa)
               %>
-              <tr class="table-item">
+              <tr>
                 <th scope="row"><%= index+1 %></th>
                 <td><%= item.namaKapal %></td>
                 <td><%= tanggal.getUTCDate()+ "-" + (tanggal.getMonth()+1) + "-" + tanggal.getFullYear()%></td>
