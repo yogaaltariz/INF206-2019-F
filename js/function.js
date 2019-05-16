@@ -15,7 +15,7 @@ const setIdFor = () => {
 }
 
 //function untuk set attribute lebih dari 1
-const setAttributes = (elem /* attribute, value pairs go here */) => {
+function setAttributes(elem /* attribute, value pairs go here */) {
     for (var i = 1; i < arguments.length; i+=2) {
         elem.setAttribute(arguments[i], arguments[i+1]);
     }

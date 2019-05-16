@@ -259,7 +259,7 @@ app.get('/',checkSignIn,(req, res,next) => {
 					const dataHariIni = foundData.filter(function (item){
 						const day = new Date(item.tanggalPeriksa)
 						const today = new Date()
-						if (day.getDay() === today.getDay()) {
+						if (day.getDate() === today.getDate()) {
 							return item
 						}
 					})
