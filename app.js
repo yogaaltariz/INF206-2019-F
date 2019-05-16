@@ -9,7 +9,7 @@ const saltRounds = 10
 
 const app = express()
 app.use(session({
-    secret: "rahasia",
+    secret: process.env.SECRET,
     resave: true,
     saveUninitialized: true
 }));
