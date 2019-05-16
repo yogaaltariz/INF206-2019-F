@@ -217,8 +217,13 @@ petugasSchema = new mongoose.Schema({
 const DataKir = mongoose.model("DataKir",ekirSchema)
 const petugas = mongoose.model("petugas",petugasSchema)
 
-//function
-function checkSignIn(req, res,next){
+/**
+ * function checkSignIn untuk mengecek user sudah berhasil login 
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} next 
+ */
+const checkSignIn = (req, res,next) => { 
 	if(req.session.user){
 	   next()     //If session exists, proceed to page
 	} else {
@@ -308,9 +313,9 @@ app.post('/login', (req, res) => {
 	}
 });
 
-app.get("/info-hasil-periksa/:id",function(req,res) {
+app.get("/info-hasil-periksa/:id",(req,res) =>{
 
-	DataKir.find({_id: req.param("id")}, function (err,data){
+	DataKir.find({_id: req.param("id")}, (err,data)=>{
 		if (err) {
 			res.send(err)
 		} else {
@@ -357,6 +362,6 @@ app.use('/', (err, req, res, next) =>{
 
 
 // localhost:3000
-app.listen(3000, function () {
+app.listen(3000,  ()=> {
 	console.log('Server started on port 3000')
 })
