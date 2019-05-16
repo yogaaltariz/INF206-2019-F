@@ -220,7 +220,7 @@ const petugas = mongoose.model("petugas",petugasSchema)
  * @param {*} res 
  * @param {*} next 
  */
- checkSignIn (req, res,next) => {
+ checkSignIn (req, res,next) => { 
 	if(req.session.user){
 	   next()     //If session exists, proceed to page
 	} else {
@@ -236,11 +236,12 @@ app.get('/',checkSignIn, (req, res,next) =>{
 	petugas.findOne({_id : req.session.user._id}, (err,data) => {
 		res.render('home',{id: req.session.user._id, nama: data.nama})
 	})
-	
+//respon server untuk mengambil data user dari form
 app.get('/form',checkSignIn, (req,res,next) => {
 	res.render('form',{id: req.session.user._id})
 	// res.sendFile(path.resolve(__dirname+'/views/form.ejs'))
 })
+
 app.post("/form", (req,res)=>{
 	const result = (obj) => {
 		for(key in obj){
