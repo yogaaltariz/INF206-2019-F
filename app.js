@@ -2,6 +2,8 @@ const express = require('express')
 const session = require('express-session')
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
+const bcrypt = require('bcryptjs')
+const saltRound = 10
 
 const app = express()
 app.use(session({
