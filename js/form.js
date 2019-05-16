@@ -1,4 +1,4 @@
-$(document).on('click', '.caret-icon', function() {
+$(document).on('click', '.caret-icon', () =>{
    $(this).toggleClass('fa-caret-up fa-caret-down');
 })
 
@@ -6,7 +6,7 @@ setIdFor()
 
 // tambah atribute required
 const input = document.querySelectorAll('input')
-input.forEach(function(item){
+input.forEach((item)=>{
    item.setAttribute('required',true)
 })
 
@@ -16,12 +16,12 @@ const form = []
 // const fieldName = []
 // const radio = document.querySelectorAll('input[type="radio"]')
 
-allform.forEach(function(element) {
+allform.forEach((element)=> {
    if(!(element.childNodes.length === 5)){
       form.push(element)
    }
 })
-form.forEach(function(element){
+form.forEach((element)=>{
    // console.log(element)
    element.appendChild(generateKeterangan(element.childNodes[3].childNodes[1].name))
    // fieldName.push(element.childNodes[3].childNodes[1].name)
