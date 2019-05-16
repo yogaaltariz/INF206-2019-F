@@ -3,15 +3,9 @@ const express = require('express')
 const session = require('express-session')
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
-<<<<<<< Updated upstream
-const bcrypt = require('bcryptjs')
-const flash = require('express-flash')
-const saltRound = 10
-=======
 const bcrypt = require('bcrypt')
 const flash = require('express-flash')
 const saltRounds = 10
->>>>>>> Stashed changes
 
 const app = express()
 app.use(session({
@@ -249,56 +243,12 @@ const checkSignIn = (req, res,next) => {
 }
 
 
-<<<<<<< Updated upstream
 /**
  * fungsi untuk render halaman home
  */
 app.get('/',checkSignIn,(req, res,next) => {
 	petugas.findOne({_id : req.session.user._id}, (err,data) => {
 		res.render('home',{id: req.session.user._id, nama: data.nama})
-=======
-//set route
-app.get('/',checkSignIn,function(req, res,next) {
-	petugas.findOne({_id : req.session.user._id}, function(err,data){
-		if (err) {
-			console.log(err)
-		} else {
-			// const user = JSON.stringify(data)
-			DataKir.find({idPetugas: req.session.user._id}, function(err,foundData){
-				if(err) {
-					console.log(err)
-				} else {
-					const dataHariIni = foundData.filter(function (item){
-						const day = new Date(item.tanggalPeriksa)
-						const today = new Date()
-						if (day.getDay() === today.getDay()) {
-							return item
-						}
-					})
-
-					const dataBulanIni = foundData.filter(function (item){
-						const day = new Date(item.tanggalPeriksa)
-						const today = new Date()
-						if (day.getMonth() === today.getMonth()) {
-							return item
-						}
-					})
-
-					const kapalLulus = foundData.filter(function (item){
-						return item.hasil
-					})
-
-					const kapalTidakLulus = foundData.filter(function (item){
-						return !(item.hasil)
-					})
-					const num = foundData.length
-					res.render('home',{id: req.session.user._id, nama: data.nama,jumlah: num,dataHariIni: dataHariIni.length,dataBulanIni:dataBulanIni.length,kapalLulus:kapalLulus.length,kapalTidakLulus:kapalTidakLulus.length})
-				}
-			})
-			
-		}
-		
->>>>>>> Stashed changes
 	})
 })
 
@@ -358,32 +308,12 @@ app.get('/login',(req,res) => {
 */
 app.post('/login', (req, res) => {
 
-<<<<<<< Updated upstream
 	if(!req.body.username || !req.body.password){
 	   res.render('login', {message: "Please enter both username and password"});
 	} else {
 		petugas.findOne({username: req.body.username},(err,data) => {
 			if (err) {
 				res.render('login', {message: "Username atau id salah"})
-=======
-	const username = req.body.username
-	const password = req.body.password
-
-	petugas.findOne({username: username},function(err,foundUser){
-		if (err) {
-			console.log(err)
-		} else {
-			if (foundUser) {
-				bcrypt.compare(password,foundUser.password,function(err,result){
-					if (result === true) {
-						req.session.user = foundUser
-						// console.log(foundUser)			
-						res.redirect('/')
-					} else{
-						res.render('login', {message: "Username atau password salah"})				
-					}
-				})
->>>>>>> Stashed changes
 			} else {
 				res.render('login', {message: "Username atau password salah"})
 			}
@@ -391,11 +321,7 @@ app.post('/login', (req, res) => {
 	})
 });
 
-<<<<<<< Updated upstream
 app.get("/info-hasil-periksa/:id",(req,res) =>{
-=======
-app.get("/info-hasil-periksa/:id",checkSignIn,function(req,res,next) {
->>>>>>> Stashed changes
 
 	DataKir.find({_id: req.param("id")}, (err,data)=>{
 		if (err) {
