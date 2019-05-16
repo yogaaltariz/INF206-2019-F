@@ -236,14 +236,21 @@ app.get('/',checkSignIn,(req, res,next) => {
 	petugas.findOne({_id : req.session.user._id}, (err,data) => {
 		res.render('home',{id: req.session.user._id, nama: data.nama})
 	})
-
-app.get('/form',checkSignIn,function (req,res,next) {
+	
+/**
+ * Fungsi ini digunakan untuk merender halaman form
+ *
+*/
+app.get('/form',checkSignIn,(req,res,next) => {
 	res.render('form',{id: req.session.user._id})
 	// res.sendFile(path.resolve(__dirname+'/views/form.ejs'))
 })
 
-
-app.post("/form", function(req,res){
+/**
+ * Fungsi ini digunakan untuk mengembalikan nilai inputan form ke dalam database
+ *
+ */
+app.post("/form", (req,res) => {
 	const result = (obj) => {
 		for(key in obj){
 			if(obj[key] === 'Tidak sesuai persyaratan'){
