@@ -247,8 +247,45 @@ const checkSignIn = (req, res,next) => {
  * fungsi untuk render halaman home
  */
 app.get('/',checkSignIn,(req, res,next) => {
-	petugas.findOne({_id : req.session.user._id}, (err,data) => {
-		res.render('home',{id: req.session.user._id, nama: data.nama})
+	petugas.findOne({_id : req.session.user._id}, function(err,data){
+		if (err) {
+			console.log(err)
+		} else {
+			// const user = JSON.stringify(data)
+			DataKir.find({idPetugas: req.session.user._id}, function(err,foundData){
+				if(err) {
+					console.log(err)
+				} else {
+					const dataHariIni = foundData.filter(function (item){
+						const day = new Date(item.tanggalPeriksa)
+						const today = new Date()
+						if (day.getDay() === today.getDay()) {
+							return item
+						}
+					})
+
+					const dataBulanIni = foundData.filter(function (item){
+						const day = new Date(item.tanggalPeriksa)
+						const today = new Date()
+						if (day.getMonth() === today.getMonth()) {
+							return item
+						}
+					})
+
+					const kapalLulus = foundData.filter(function (item){
+						return item.hasil
+					})
+
+					const kapalTidakLulus = foundData.filter(function (item){
+						return !(item.hasil)
+					})
+					const num = foundData.length
+					res.render('home',{id: req.session.user._id, nama: data.nama,jumlah: num,dataHariIni: dataHariIni.length,dataBulanIni:dataBulanIni.length,kapalLulus:kapalLulus.length,kapalTidakLulus:kapalTidakLulus.length})
+				}
+			})
+			
+		}
+		
 	})
 })
 
