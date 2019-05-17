@@ -14,12 +14,15 @@ const setIdFor = () => {
 	}
 }
 
-const setAttributes = function (elem /* attribute, value pairs go here */) {
+//function untuk set attribute lebih dari 1
+function setAttributes(elem /* attribute, value pairs go here */) {
     for (var i = 1; i < arguments.length; i+=2) {
         elem.setAttribute(arguments[i], arguments[i+1]);
     }
 }
 
+
+//function membuat kolom keterangan
 const generateKeterangan = (fieldName) => {
 	const divKeterangan = document.createElement('div')
 	setAttributes(divKeterangan,
@@ -53,31 +56,16 @@ const generateKeterangan = (fieldName) => {
 	return divKeterangan
 }
 
+
+//function untuk membuat eventListener pada radio button tidak sesuai
 const addEventToTidak = (fieldName) => {
-	
-	// if (element.value === 'tidak'){
-	// 	element.addEventListener('change',function (e) {
-	// 		if(e.target.checked){
-	// 			// console.log();
-	// 			document.querySelector(`#${fieldName}-div`).removeAttribute('class')
-	// 		}
-	// 	})
-	// } 
-	// else {
-	// 	element.addEventListener('click',function (e) {
-	// 		if(e.target.checked){
-	// 			document.querySelector(`#${fieldName}-div`).setAttribute('class','d-none')
-	// 		}
-	// 	})
-	
-	// }
 	const radio = document.querySelectorAll('input[type="radio"]')
 
 	for (let index = 0; index < radio.length; index++) {
 		let element = radio[index];
 
 		if (element.value === 'tidak'){
-			element.addEventListener('change',function (e) {
+			element.addEventListener('change', (e) => {
 				if(e.target.checked){
 					// console.log();
 					document.querySelector(`#${fieldName}-div`).removeAttribute('class')
@@ -85,7 +73,7 @@ const addEventToTidak = (fieldName) => {
 			})
 		} 
 		else {
-			element.addEventListener('click',function (e) {
+			element.addEventListener('click', (e) => {
 				if(e.target.checked){
 					document.querySelector(`#${fieldName}-div`).setAttribute('class','d-none')
 					

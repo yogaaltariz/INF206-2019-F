@@ -16,10 +16,10 @@
   <body>
     <!-- Just an image -->
     <nav class="navbar navbar-light bg-light navbar-expand-lg">
-      <a class="navbar-brand" href="#">
-        <img src="/warna.png" width="30" height="30" alt="">
+      <a class="navbar-brand" href="/">
+        <img src="/warna.png" width="30" height="30" class="d-inline-block align-top" alt="">
+        e-KIR Kapal
       </a>
-      <span>KIR Kapal</span>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -42,10 +42,13 @@
     </nav>
   
     <div class="container">
-      <h2 class="text-center">Selamat datang</h2>
-      <h2 class="text-center"><%= nama %></h2>
+      <div class="mb-5">
+          <h2 class="text-center">Selamat datang</h2>
+          <h2 class="text-center"><%= nama %></h2>
+      </div>
+     
 
-      <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+      <!-- <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
         <div class="carousel-inner">
           <div class="carousel-item active">
             <img src="/kapal.jpg" class="d-block w-100" alt="...">
@@ -65,11 +68,52 @@
           <span class="carousel-control-next-icon" aria-hidden="true"></span>
           <span class="sr-only">Next</span>
         </a>
+      </div> -->
+      <% 
+        if(messages.success){
+          %>
+          <div class="alert alert-success" role="alert">
+            <%= messages.success %>
+          </div>
+        <%
+        }
+      %>
+      <div class="card text-center mb-4">
+        <div class="card-body">
+          <h5 class="card-title">Ganti password</h5>
+          <form action="/<%= id %>" method="POST">
+            <input type="password" placeholder="password lama anda" name="password" class="form-control" required>
+            <input type="password" placeholder="password baru anda" name="password1" class="form-control" required>
+            <input type="password" placeholder="ulangi password baru anda" name="password2" class="form-control" required>
+            <input type="submit" class="btn btn-primary text-center" value="Ganti password">
+          </form>
+        </div>
       </div>
-
-      <p>Banyak kapal yang anda periksa hari ini : 2</p>
-      <p>Banyak kapal yang anda periksa bulan ini : 15</p>
-
+      <h6>Statistik anda</h6>
+      <table class="table table-bordered table-primary">
+        <tbody>
+          <tr>
+            <th scope="row">Total kapal yang anda periksa</th>
+            <td><%= jumlah %></td>
+          </tr>
+          <tr>
+            <th scope="row">Total kapal yang anda periksa bulan ini</th>
+            <td><%= dataBulanIni %></td>
+          </tr>
+          <tr>
+            <th scope="row">Total kapal yang anda periksa hari ini</th>
+            <td><%= dataHariIni %></td>
+          </tr>
+          <tr>
+            <th>Total kapal yang lulus anda periksa</th>
+            <td><%= kapalLulus %></td>
+          </tr>
+          <tr>
+            <th>Total kapal yang tidak lulus anda periksa</th>
+            <td><%= kapalTidakLulus %></td>
+          </tr>
+        </tbody>
+      </table>
 
     </div>
 

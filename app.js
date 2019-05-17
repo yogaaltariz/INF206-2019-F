@@ -1,13 +1,15 @@
+require('dotenv').config()
 const express = require('express')
 const session = require('express-session')
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
-const bcrypt = require('bcryptjs')
-const saltRound = 10
+const bcrypt = require('bcrypt')
+const flash = require('express-flash')
+const saltRounds = 10
 
 const app = express()
 app.use(session({
-    secret: "rahasia",
+    secret: process.env.SECRET,
     resave: true,
     saveUninitialized: true
 }));
@@ -17,7 +19,7 @@ app.set("view engine","ejs")
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}))
-
+app.use(flash())
 app.use(express.static(__dirname+'/image'));
 app.use(express.static(__dirname+'/style'));
 app.use(express.static(__dirname+'/views'));
@@ -204,6 +206,14 @@ const ekirSchema = new mongoose.Schema({
 	hasil: {
 		type: Boolean,
 		required: [true,'tidak dapat mengkalkulasi hasil']
+	},
+	idPetugas: {
+		type: String,
+		required: [true,'tidak ada id admin']
+	},
+	namaPetugas: {
+		type: String,
+		required: [true,'tidak ada nama petugas']
 	}
 })
 
@@ -216,8 +226,13 @@ petugasSchema = new mongoose.Schema({
 const DataKir = mongoose.model("DataKir",ekirSchema)
 const petugas = mongoose.model("petugas",petugasSchema)
 
-//function
-function checkSignIn(req, res,next){
+/**
+ * function checkSignIn untuk mengecek user sudah berhasil login 
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} next 
+ */
+const checkSignIn = (req, res,next) => { 
 	if(req.session.user){
 	   next()     //If session exists, proceed to page
 	} else {
@@ -228,17 +243,67 @@ function checkSignIn(req, res,next){
 }
 
 
-//set route
-app.get('/',checkSignIn,function(req, res,next) {
+/**
+ * fungsi untuk render halaman home
+ */
+app.get('/',checkSignIn,(req, res,next) => {
 	petugas.findOne({_id : req.session.user._id}, function(err,data){
-		res.render('home',{id: req.session.user._id, nama: data.nama})
+		if (err) {
+			console.log(err)
+		} else {
+			// const user = JSON.stringify(data)
+			DataKir.find({idPetugas: req.session.user._id}, function(err,foundData){
+				if(err) {
+					console.log(err)
+				} else {
+					const dataHariIni = foundData.filter(function (item){
+						const day = new Date(item.tanggalPeriksa)
+						const today = new Date()
+						if (day.getDate() === today.getDate()) {
+							return item
+						}
+					})
+
+					const dataBulanIni = foundData.filter(function (item){
+						const day = new Date(item.tanggalPeriksa)
+						const today = new Date()
+						if (day.getMonth() === today.getMonth()) {
+							return item
+						}
+					})
+
+					const kapalLulus = foundData.filter(function (item){
+						return item.hasil
+					})
+
+					const kapalTidakLulus = foundData.filter(function (item){
+						return !(item.hasil)
+					})
+					const num = foundData.length
+					res.render('home',{id: req.session.user._id, nama: data.nama,jumlah: num,dataHariIni: dataHariIni.length,dataBulanIni:dataBulanIni.length,kapalLulus:kapalLulus.length,kapalTidakLulus:kapalTidakLulus.length})
+				}
+			})
+			
+		}
+		
 	})
+})
+
 	
-app.get('/form',checkSignIn,function (req,res,next) {
+/**
+ * Fungsi ini digunakan untuk merender halaman form
+ *
+*/
+app.get('/form',checkSignIn,(req,res,next) => {
 	res.render('form',{id: req.session.user._id})
 	// res.sendFile(path.resolve(__dirname+'/views/form.ejs'))
 })
-app.post("/form", function(req,res){
+
+/**
+ * Fungsi ini digunakan untuk mengembalikan nilai inputan form ke dalam database
+ *
+ */
+app.post("/form", (req,res) => {
 	const result = (obj) => {
 		for(key in obj){
 			if(obj[key] === 'Tidak sesuai persyaratan'){
@@ -251,9 +316,12 @@ app.post("/form", function(req,res){
 	data = req.body
 	data.tanggalPeriksa = tanggal
 	data.hasil = result(req.body)
-	console.log(data)
+	data.idPetugas = req.session.user._id
+	data.namaPetugas = req.session.user.nama
+	// console.log(data)
 	const dataKir = new DataKir(data)
 	dataKir.save().then(item => {
+		req.flash('success','Data pemeriksaan kapal berhasil ditambahkan')
 		res.redirect('/riwayat')
 	}).catch(err => {
 		res.send(err)
@@ -261,7 +329,6 @@ app.post("/form", function(req,res){
 })
 	
     // res.sendFile(path.resolve(__dirname +'/views/home.ejs'));
-});
 
 /**
 *route method get untuk render halaman login
@@ -277,28 +344,33 @@ app.get('/login',(req,res) => {
 *localhost:3000/login
 */
 app.post('/login', (req, res) => {
+	const username = req.body.username
+	const password = req.body.password
 
-	if(!req.body.username || !req.body.password){
-	   res.render('login', {message: "Please enter both username and password"});
-	} else {
-		petugas.findOne({username: req.body.username},(err,data) => {
-			if (err) {
-				res.render('login', {message: "Username atau id salah"})
+	petugas.findOne({username: username},function(err,foundUser){
+		if (err) {
+			console.log(err)
+		} else {
+			if (foundUser) {
+				bcrypt.compare(password,foundUser.password,function(err,result){
+					if (result === true) {
+						req.session.user = foundUser
+						// console.log(foundUser)			
+						res.redirect('/')
+					} else{
+						res.render('login', {message: "Username atau password salah"})				
+					}
+				})
 			} else {
-				if (data.username === req.body.username && data.password === req.body.password) {
-					req.session.user = data
-					res.redirect("/")
-				} else {
-					res.render('login', {message: "Username atau id salah"})
-				}
+				res.render('login', {message: "Username atau password salah"})
 			}
-		})   
-	}
+		}
+	})
 });
 
-app.get("/info-hasil-periksa/:id",function(req,res) {
+app.get("/info-hasil-periksa/:id",(req,res) =>{
 
-	DataKir.find({_id: req.param("id")}, function (err,data){
+	DataKir.find({_id: req.param("id")}, (err,data)=>{
 		if (err) {
 			res.send(err)
 		} else {
@@ -321,9 +393,9 @@ app.get('/logout', (req, res) => {
 	res.redirect('/login');
  });
 
-app.get('/riwayat',checkSignIn,function (req,res,next) {
+app.get('/riwayat',checkSignIn, (req,res,next) => {
 
-	DataKir.find({}).sort({tanggalPeriksa : 'descending'}).exec(function(err,data){
+	DataKir.find({idPetugas: req.session.user._id}).sort({tanggalPeriksa : 'descending'}).exec((err,data)=>{
 		if(err){
 			res.send(err)
 		} else {
@@ -333,7 +405,37 @@ app.get('/riwayat',checkSignIn,function (req,res,next) {
 			res.render('riwayat', {data: dataDB,id: req.session.user._id})
 		}
 	})
-	// res.sendFile(path.resolve(__dirname+'/views/riwayat.ejs'))
+})
+
+app.post('/:id',(req,res) =>{
+	// console.log(req.body,req.params.id)
+	petugas.findOne({_id: req.params.id},(err,foundUser) =>{
+		if (err) {
+			console.log(err)
+		} else {
+			bcrypt.compare(req.body.password,foundUser.password,(err,result) =>{
+				if (result === true) {
+					if (req.body.password1 === req.body.password2) {
+						bcrypt.hash(req.body.password1,saltRounds,(err,hash) =>{
+							foundUser.password = hash
+							foundUser.save(function (err){
+								if(err){
+									console.log(err)
+								} else {
+									req.flash('success', 'Password anda berhasil diganti')
+									res.redirect('/')
+								}
+							})
+						})
+					} else {
+						res.send("gagal")
+					}
+				} else{
+					res.send("password salah")				
+				}
+			})
+		}
+	})
 })
 
 
@@ -345,6 +447,6 @@ app.use('/', (err, req, res, next) =>{
 
 
 // localhost:3000
-app.listen(3000, function () {
+app.listen(3000,  ()=> {
 	console.log('Server started on port 3000')
 })
