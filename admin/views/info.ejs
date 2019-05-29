@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Dokumen kapal
+    </title>
+
+    <link href="/style.min.css" rel="stylesheet">
+</head>
+<style>
+    * {
+        line-height: 1px !important;
+        font-family: 'Times New Roman', Times, serif;
+        font-size: 18px;
+        color: black !important;
+    }
+
+    .title {
+        font-size: 20px;
+        line-height: normal !important;
+    }
+
+    #lampiran {
+        page-break-before: always;
+    }
+
+    #isi p,li {
+        line-height: normal !important;
+        text-align: justify;
+    }
+</style>
+<% 
+    kapal = JSON.parse(kapal)
+
+%>
+
+<body>
+
+    <div id="content" class="container p-3">
+        <div class="d-flex justify-content-end">
+            <div>
+                <p>LAMPIRAN VII:</p>
+                <p>PERATURAN MENTERI KELAUTAN DAN PERIKANAN</p>
+                <p>REPUBLIK INDONESIA</p>
+                <p>NOMOR 3/PERMEN-KP/2013</p>
+                <p>TENTANG KESYAHBANDARAN DI PELABUHAN PERIKANAN</p>
+            </div>
+        </div>
+
+        <p class="text-center title mt-5">KOP PELABUHAN PERIKANAN</p>
+        <p class="text-center title my-5 text-break">HASIL PEMERIKSAAN TEKNIS DAN NAUTIS KAPAL PERIKANAN, ALAT
+            PENANGKAPAN IKAN, DAN ALAT BANTU PENANGKAPAN IKAN</p>
+
+        <div class="row m-auto text-justify">
+            <div class="col-4 offset-2 ">
+                <table class="table table-borderless">
+                    <tr>
+                        <td>Nama Kapal</td>
+                        <td>: <%= kapal.namaKapal %></td>
+                    </tr>
+                    <tr>
+                        <td>Bendera</td>
+                        <td>: <%= kapal.bendera %></td>
+                    </tr>
+                    <tr>
+                        <td>GT</td>
+                        <td>: <%= kapal.grossTon %></td>
+                    </tr>
+                    <tr>
+                        <td>Nama Nakhoda</td>
+                        <td>: <%= kapal.namaNakhoda %></td>
+                    </tr>
+                    <tr>
+                        <td>IMO Number</td>
+                        <td>: <%= kapal.IMO %></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-4">
+                <table class="table table-borderless">
+                    <tr>
+                        <td>Jumlah ABK</td>
+                        <td>: <%= kapal.JumlahABK %></td>
+                    </tr>
+                    <tr>
+                        <td><i>Call Sign</i></td>
+                        <td>: <%= kapal.callSign %></td>
+                    </tr>
+                    <tr>
+                        <td>Tahun Pembuatan</td>
+                        <td>: <%= kapal.tahunPembuatan %></td>
+                    </tr>
+                    <tr>
+                        <td>Jenis Kapal</td>
+                        <td>: <%= kapal.jenisKapal %></td>
+                    </tr>
+                    <tr>
+                        <td>Pemilik</td>
+                        <td>: <%= kapal.pemilik %></td>
+                    </tr>
+                </table>
+            </div>
+
+            <table class="table table-bordered mt-3" id="tabel-utama">
+                <thead>
+                    <th colspan="2">URAIAN PEMERIKSAAN</th>
+                    <th>HASIL PEMERIKSAAN</th>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td rowspan="7">Nautis, Teknis, dan Radio</td>
+                        <td>Peralatan Navigasi</td>
+                        <td> <%= kapal.peralatanNavigasi %></td>
+                    </tr>
+                    <tr>
+                        <td>Peralatan radio komunikasi</td>
+                        <td> <%= kapal.peralatanRadio %></td>
+                    </tr>
+                    <tr>
+                        <td>Alat-alat keselamatan</td>
+                        <td> <%= kapal.alatKeselamatan %></td>
+                    </tr>
+                    <tr>
+                        <td>Alat-alat pemadam kebakaran</td>
+                        <td> <%= kapal.alatPemadam %></td>
+                    </tr>
+                    <tr>
+                        <td>Pintu-pintu dan bukaan-bukaan</td>
+                        <td> <%= kapal.pintuBukaan %></td>
+                    </tr>
+                    <tr>
+                        <td>Permesinan dan perlistrikan kapal perikanan</td>
+                        <td> <%= kapal.mesinListrik %></td>
+                    </tr>
+                    <tr>
+                        <td>Peralatan pencegahan pencemaran</td>
+                        <td> <%= kapal.alatPencegah %></td>
+                    </tr>
+
+                    <tr>
+                        <td rowspan="3">Pengawakan</td>
+                        <td>Nakhoda</td>
+                        <td> <%= kapal.nakhoda %></td>
+                    </tr>
+                    <tr>
+                        <td>Jumlah Perwira</td>
+                        <td> <%= kapal.jumlahPerwira %></td>
+                    </tr>
+                    <tr>
+                        <td>Jumlah ABK</td>
+                        <td> <%= kapal.jumlahABK %></td>
+                    </tr>
+
+                    <tr>
+                        <td rowspan="6">Alat penangkapan ikan</td>
+                        <td>Jenis alat tangkap</td>
+                        <td> <%= kapal.jenisAlatTangkap %></td>
+                    </tr>
+                    <tr>
+                        <td>Jumlah alat penangkap ikan</td>
+                        <td> <%= kapal.jumlahAPI %></td>
+                    </tr>
+                    <tr>
+                        <td>Jumlah alat bantu penangkap ikan</td>
+                        <td> <%= kapal.jumlahABPI %></td>
+                    </tr>
+                    <tr>
+                        <td>Spesfikasi alat penangkap ikan</td>
+                        <td> <%= kapal.spekAPI %></td>
+                    </tr>
+
+                    <tr>
+                        <td>Spesfikasi alat bantu penangkapan ikan</td>
+                        <td> <%= kapal.spekABPI %></td>
+                    </tr>
+
+                    <tr>
+                        <td>Palkah dan jenis pendingin</td>
+                        <td> <%= kapal.palkah %></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+
+
+    </div>
+    <% 
+    
+        if(!kapal.hasil){
+            %>
+
+            <div id="lampiran" class="container p-3">
+                    <div class="d-flex justify-content-end" id="">
+                        <div>
+                            <p>LAMPIRAN VII:</p>
+                            <p>PERATURAN MENTERI KELAUTAN DAN PERIKANAN</p>
+                            <p>REPUBLIK INDONESIA</p>
+                            <p>NOMOR 3/PERMEN-KP/2013</p>
+                            <p>TENTANG KESYAHBANDARAN DI PELABUHAN PERIKANAN</p>
+                        </div>
+                    </div>
+            
+                    <p class="text-center title mt-5">KOP PELABUHAN PERIKANAN</p>
+                    <p class="text-center title my-5 text-break">SURAT PEMBERITAHUAN KEKURANGAN PERSYARATAN</p>
+            
+                    <div id="isi">
+            
+                        <p>Merujuk surat Saudara Nomor: ..... Tanggal ..... hal Permohonan Penerbitan Surat Persetujuan Berlayar
+                            KM/MV <%= kapal.namaKapal %> serta memperhatikan Peraturan Menteri Kelautan dan Perikanan tentang Kesyahbandaran di
+                            Pelabuhan Perikanan, dengan ini diberitahukan bahwa permohonan Saudara belum dapat destujui karena
+                            adanya temuan kekurangan persyaratan fisik kapal perikanan:
+                        </p>
+                        <ul>
+                            
+                        </ul>
+                        <p>Kekurangan sebagaimana tersebut di atas agar segera dilengkapi dan dilaporkan kepada syahbandara di
+                            pelabuhan perikanan guna penerbitan Surat Persetujuan Berlayar</p>
+                    </div>
+            
+            
+                </div>
+                <%
+        }
+    %>
+    
+
+
+    <!-- scripts -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js">
+    </script>
+    <% kapal = JSON.stringify(kapal) %>
+    <script>
+        
+        const obj = <%- kapal %>
+        const key = Object.keys(obj)
+        // key.forEach(function(item){
+        //     console.log(item.includes("ket"))
+        // })
+        let td = document.querySelectorAll('#tabel-utama td')
+        td = Array.from(td)
+        
+       const namaField = td.filter(function(item){
+           return !item.hasAttribute('rowspan') && !item.textContent.toLowerCase().includes('sesuai')
+       })
+
+        const keterangan = key.filter(function(item){
+            return item.toLowerCase().includes("ket")
+        })
+
+  
+        // console.log(obj.peralatanNavigasi)
+       keterangan.forEach(function(item,index){
+           if (obj[item]) {
+               const li = document.createElement('li')
+               li.textContent = `${namaField[index].textContent} : ${obj[item]}`
+               document.querySelector('ul').appendChild(li)
+           }
+       })
+
+       $(document).ready(function () {
+            window.print();
+        });
+
+    //    namaField.forEach(function(item) {
+    //        console.log(item.textContent)
+    //    })
+    </script>
+</body>
+
+</html>
+</body>
+
+</html>
