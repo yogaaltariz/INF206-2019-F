@@ -54,3 +54,37 @@ router.post('/petugas/edit/:id/save',checkSignIn,function(req,res){
         }
     })
 })
+router.get('/login',function(req,res){
+    res.render('login')
+})
+
+router.get('/logout',function(req,res){
+    req.session.destroy(function(){
+        console.log("user logged out.")
+     });
+     
+     res.redirect('/login');
+})
+router.post('/login',function(req,res){
+    const username = req.body.username
+    const password = req.body.password
+    // console.log(req.body)
+    Admin.findOne({username: username},function(err,foundUser){
+        if (err) {
+            console.log(err)
+        } else {
+            if (foundUser) {
+                if (foundUser.password === password) {
+                    req.session.user = foundUser
+                    res.redirect('/')
+                } else {
+                    req.flash('info', 'Username atau password salah');
+                    res.render('login')
+                }
+            } else {
+                req.flash('info', 'Username atau password salah');
+                res.render('login')
+            }
+        }
+    })
+})
