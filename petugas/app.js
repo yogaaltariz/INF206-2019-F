@@ -147,7 +147,7 @@ const ekirSchema = new mongoose.Schema({
 		type: String,
 		required: [true,'terdapat data yang kosong']
 	},
-	jumlahABK: {
+	jumlahABKket: {
 		type: String,
 		required : function() { return this.jumlahABK === 'Tidak sesuai persyaratan'; }
 	},
