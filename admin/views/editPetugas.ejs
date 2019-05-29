@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>e-Kir Petugas</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Comfortaa" rel="stylesheet"> 
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <link href="/style.min.css" rel="stylesheet">
+</head>
+<body>
+    <style>
+        .brand {
+            font-family: 'Comfortaa', cursive;
+        }
+    </style>
+    <nav class="navbar navbar-dark bg-dark">
+        <span class="navbar-brand brand">e-Kir Admin</span>
+        <a href="/" class="h3 text-light"><i class="fas fa-home"></i></a> 
+    </nav>
+
+    <h1>Edit petugas</h1>
+
+    <% 
+        petugas = JSON.parse(petugas)
+    %>
+    <div class="container-fluid">
+            <% 
+            if(messages.info){
+              %>
+              <div class="alert alert-success" role="alert">
+                <%= messages.info %>
+              </div>
+            <%
+            }
+          %>
+            <!-- ============================================================== -->
+            <!-- Email campaign chart -->
+            <!-- ============================================================== -->
+            <form action="/petugas/edit/<%= petugas._id %>/save" method="POST">
+                <div class="form-row">
+                    <div class="col border shadow-sm px-3 py-2">
+                        <input type="text" class="form-control my-4" name="NIP" placeholder="Nomor Induk Pegawai" value="<%= petugas.NIP %>">
+                        <input type="text" class="form-control my-4" name="nama" placeholder="Nama lengkap petugas" value="<%= petugas.nama %>">
+
+                        <select class="form-control" id="jk" name="jk">
+                                <option value='0'>Jenis Kelamin</option>
+                                <option value="lk" id="lk">Laki - laki</option>
+                                <option value="pr" id="pr">Perempuan</option>
+                        </select>
+
+                        <input type="text" class="form-control my-4" name="alamat" placeholder="Alamat petugas" value="<%= petugas.alamat %>">
+                        
+                    </div>
+
+                    <div class="col border shadow-sm p-2">
+                        <input type="email" class="form-control my-4" name="email" placeholder="Email petugas" value="<%= petugas.email %>">
+                        <input type="text" class="form-control my-4" name="username" placeholder="Username akun petugas" value="<%= petugas.username %>">
+                    </div>
+                </div>
+
+                <input type="submit" class="btn btn-block btn-dark my-1" value="Edit petugas">
+            </form>
+
+            <!-- ============================================================== -->
+            <!-- Email campaign chart -->
+            <!-- ============================================================== -->
+            <!-- ============================================================== -->
+            <!-- Ravenue - page-view-bounce rate -->
+            <!-- ============================================================== -->
+
+            <!-- ============================================================== -->
+            <!-- Ravenue - page-view-bounce rate -->
+            <!-- ============================================================== -->
+            <!-- ============================================================== -->
+            <!-- Recent comment and chats -->
+            <!-- ============================================================== -->
+
+            <!-- ============================================================== -->
+            <!-- Recent comment and chats -->
+            <!-- ============================================================== -->
+        </div>
+    <script src="/libs/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap tether Core JavaScript -->
+    <script src="/libs/popper.js/dist/umd/popper.min.js"></script>
+    <script src="/libs/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script>
+        console.log(document.querySelector('#pr'))
+        
+        <% 
+            if (petugas.jk === 'lk') {
+                %>
+                document.querySelector('#lk').setAttribute('selected',true)
+                <%
+            } else {
+                %>
+                document.querySelector('#pr').setAttribute('selected',true)
+                <%
+            }
+
+        %>
+    </script>
+    
+</body>
+</html>
