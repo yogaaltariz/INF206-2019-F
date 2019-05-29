@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>e-Kir Petugas</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Comfortaa" rel="stylesheet"> 
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <link href="/style.min.css" rel="stylesheet">
+</head>
+<body>
+    <style>
+        .brand {
+            font-family: 'Comfortaa', cursive;
+        }
+    </style>
+    <nav class="navbar navbar-dark bg-dark">
+        <span class="navbar-brand brand">e-Kir Admin</span>
+        <a href="/" class="h3 text-light"><i class="fas fa-home"></i></a> 
+    </nav>
+    <% 
+    petugas = JSON.parse(petugas)
+
+    %>
+    <div class="container">
+            <% 
+        if(messages.info){
+          %>
+          <div class="alert alert-success" role="alert">
+            <%= messages.info %>
+          </div>
+        <%
+        }
+      %>
+            <div class="card border my-3">
+                <div class="card-body">
+                    <h3 class="card-title text-center text-dark"><%= petugas.nama %></h3>
+                    <div class="row">
+                        <div class="col-6 border ">
+                           
+                            <table class="table table-borderless">
+                                <tbody>
+                                    <tr>
+                                        <td>Nomor Input Pegawai</td>
+                                        <td>: <%= petugas.NIP %></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Jenis kelamin</td>
+                                        <td>: <%- petugas.jk === 'lk' ? '<span>Laki-laki</span>' : '<span>Perempuan</span>' %></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Alamat</td>
+                                        <td>: <%= petugas.alamat %></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Email</td>
+                                        <td>: <%= petugas.email %></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Username</td>
+                                        <td>: <%= petugas.username %></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-6 border">
+                            <table class="table table-borderless">
+                                <tbody>
+                                   <tr>
+                                       <td>Total melakukan pengecekan kapal</td>
+                                       <td>: <%= jumlah %></td>
+                                   </tr>
+                                   <tr>
+                                       <td>jumlah kapal yang lulus pengecekan</td>
+                                       <td>: <%= kapalLulus %></td>
+                                   </tr>
+                                   <tr>
+                                       <td>jumlah kapal yang tidak lulus pengecekan</td>
+                                       <td>: <%= kapalTidakLulus %></td>
+                                   </tr>
+                                </tbody>
+                            </table>
+
+                            <a class="btn btn-dark mx-4" href="/petugas/edit/<%= petugas._id %>"><i class="fas fa-user-edit"></i> Edit profil</a>
+                            <a href="/petugas/resetPassword/<%= petugas._id %>" class="btn btn-dark"><i class="fas fa-undo-alt"></i> Reset password</a>
+                           
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+   
+
+    <script src="/libs/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap tether Core JavaScript -->
+    <script src="/libs/popper.js/dist/umd/popper.min.js"></script>
+    <script src="/libs/bootstrap/dist/js/bootstrap.min.js"></script>
+</body>
+</html>
