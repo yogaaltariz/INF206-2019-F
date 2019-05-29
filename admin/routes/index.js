@@ -1,3 +1,14 @@
+const express = require('express')
+const router = express.Router()
+const session = require('express-session')
+const nodemailer = require("nodemailer")
+const bcrypt = require('bcrypt')
+const saltRounds = 10
+
+const Admin = require('../models/admin')
+const Petugas = require('../models/petugas')
+const Datakir = require('../models/datakir')
+
 function checkSignIn(req, res,next){
 	if(req.session.user){
 	   next()     //If session exists, proceed to page
@@ -9,16 +20,7 @@ function checkSignIn(req, res,next){
 	}
 }
 
-const express = require('express')
-const router = express.Router()
-const session = require('express-session')
-const nodemailer = require("nodemailer")
-const bcrypt = require('bcrypt')
-const saltRounds = 10
 
-const Admin = require('../models/admin')
-const Petugas = require('../models/petugas')
-const Datakir = require('../models/datakir')
 
 
 const transporter = nodemailer.createTransport({
