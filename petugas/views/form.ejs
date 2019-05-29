@@ -1,0 +1,389 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- font awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/litera/bootstrap.min.css">
+    <!-- self css -->
+    <link rel="stylesheet" type="text/css" href="/style.css">
+
+    <title>eKir - Form</title>
+  </head>
+  <body>
+    <!-- Just an image -->
+    <nav class="navbar navbar-light bg-light navbar-expand-lg">
+      <a class="navbar-brand" href="/">
+        <img src="/warna.png" width="30" height="30" class="d-inline-block align-top" alt="">
+        e-KIR Kapal
+      </a>
+      
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="/">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/form">Form</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/riwayat">Riwayat</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/logout">Logout</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    </nav>
+
+    <div class="container">
+      <h4 class="text-center">PEMERIKSAAN TEKNIS DAN NAUTIS KAPAL PERIKANAN, ALAT PENANGKAPAN IKAN, DAN ALAT BANTU PENANGKAPAN IKAN</h4>
+
+     
+      <form action="/form" method="post">
+        <div class="form-group row">
+          <label class="col-md-2 col-form-label" for="namaKapal">Nama kapal</label>
+          <input type="text" name="namaKapal" class= " col-md-10 form-control" id="namaKapal">
+        </div>
+
+        <div class="form-group row">
+          <label class="col-md-2 col-form-label" for="bendera">Bendera</label>
+          <input type="text" name="bendera" class="form-control col-md-10" id="bendera">
+        </div>
+
+        <div class="form-group row">
+          <label class="col-md-2 col-form-label" for="grossTon">Gross Ton</label>
+          <input type="number" name="grossTon" class="form-control col-md-10" id="gt">
+        </div>
+
+        <div class="form-group row">
+          <label class="col-md-2 col-form-label" for="namaNahkoda">Nama nahkoda</label>
+          <input type="text" name="namaNakhoda" class="form-control col-md-10" id="namaNahkoda">
+        </div>
+
+        <div class="form-group row">
+          <label class="col-md-2 col-form-label" for="IMO">IMO number</label>
+          <input type="text" name="IMO" class="form-control col-md-10" id="IMO">
+        </div>
+
+        <div class="form-group row">
+          <label class="col-md-2 col-form-label" for="jumlahABK">Jumlah ABK</label>
+          <input type="number" name="JumlahABK" class="form-control col-md-10" id="jumlahABK">
+        </div>
+
+        <div class="form-group row">
+          <label class="col-md-2 col-form-label" for="callSign">Call sign</label>
+          <input type="text" name="callSign" class="form-control col-md-10" id="callSign">
+        </div>
+
+        <div class="form-group row">
+          <label class="col-md-2 col-form-label" for="tahunPembuatan">Tahun pembuatan</label>
+          <input type="number" min="1900" max="2099" step="1" name="tahunPembuatan" class="form-control col-md-10" id="tahunPembuatan">
+        </div>
+
+        <div class="form-group row">
+          <label class="col-md-2 col-form-label" for="jenisKapal">Jenis kapal</label>
+          <input type="text" name="jenisKapal" class="form-control col-md-10" id="jenisKapal">
+        </div>
+
+        <div class="form-group row">
+          <label class="col-md-2 col-form-label" for="pemilik">Pemilik</label>
+          <input type="text" name="pemilik" class="form-control col-md-10" id="pemilik">
+        </div>
+
+        <div class="accordion" id="nautis">
+          <h4>
+            Nautis, Teknis, dan Radio <i class="caret-icon fas fa-caret-down" data-toggle="collapse" data-target="#formNautis" aria-expanded="true" aria-controls="collapseOne"></i>
+          </h4>
+          <div class="collapse hide" id="formNautis">
+            <div class="form-group">
+              <label class="d-block">Peralatan navigasi</label>
+              <div class="custom-control custom-radio custom-control-inline">
+                <input type="radio"  name="peralatanNavigasi" class="custom-control-input">
+                <label class="custom-control-label">Sesuai</label>
+              </div>
+
+              <div class="custom-control custom-radio custom-control-inline">
+                <input type="radio"  name="peralatanNavigasi" class="custom-control-input">
+                <label class="custom-control-label">Tidak sesuai</label>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="d-block">Peralatan radio komunikasi</label>
+
+              <div class="custom-control custom-radio custom-control-inline">
+                <input type="radio"  name="peralatanRadio" class="custom-control-input" value="sesuai">
+                <label class="custom-control-label">Sesuai</label>
+              </div>
+
+              <div class="custom-control custom-radio custom-control-inline">
+                <input type="radio"  name="peralatanRadio" class="custom-control-input" value="tidak">
+                <label class="custom-control-label">Tidak sesuai</label>
+              </div>
+
+            </div>
+
+            <div class="form-group">
+              <label class="d-block">Alat - alat keselamatan</label>
+
+              <div class="custom-control custom-radio custom-control-inline">
+                <input type="radio" name="alatKeselamatan" class="custom-control-input">
+                <label class="custom-control-label">Sesuai</label>
+              </div>
+
+              <div class="custom-control custom-radio custom-control-inline">
+                <input type="radio" name="alatKeselamatan" class="custom-control-input">
+                <label class="custom-control-label">Tidak sesuai</label>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="d-block">Alat - alat pemadam kebakaran</label>
+              <div class="custom-control custom-radio custom-control-inline">
+                <input type="radio" name="alatPemadam" class="custom-control-input">
+                <label class="custom-control-label">Sesuai</label>
+              </div>
+
+              <div class="custom-control custom-radio custom-control-inline">
+                  <input type="radio" name="alatPemadam" class="custom-control-input">
+                  <label class="custom-control-label">Tidak sesuai</label>
+                </div>
+            </div>
+            <div class="form-group">
+              <label class="d-block">Pintu - pintu dan buka - bukaan</label>
+
+              <div class="custom-control custom-radio custom-control-inline">
+                <input type="radio" name="pintuBukaan" class="custom-control-input">
+                <label class="custom-control-label">Sesuai</label>
+              </div>
+
+              <div class="custom-control custom-radio custom-control-inline">
+                <input type="radio" name="pintuBukaan" class="custom-control-input">
+                <label class="custom-control-label">Tidak sesuai</label>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="d-block">Permesinan dan perlistrikan kapal</label>
+
+              <div class="custom-control custom-radio custom-control-inline">
+                <input type="radio" name="mesinListrik" class="custom-control-input">
+                <label class="custom-control-label">Sesuai</label>
+              </div>
+
+              <div class="custom-control custom-radio custom-control-inline">
+                <input type="radio" name="mesinListrik" class="custom-control-input">
+                <label class="custom-control-label">Tidak sesuai</label>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="d-block">Peralatan pencegahan pencemaran</label>
+
+              <div class="custom-control custom-radio custom-control-inline">
+                <input type="radio" name="alatPencegah" class="custom-control-input">
+                <label class="custom-control-label">Sesuai</label>
+              </div>
+
+              <div class="custom-control custom-radio custom-control-inline">
+                <input type="radio" name="alatPencegah" class="custom-control-input">
+                <label class="custom-control-label">Tidak sesuai</label>
+              </div>
+            </div>
+
+          </div>
+          
+
+        </div>
+
+        <div id="pengawakan">
+          <h4>
+            Pengawakan <i class="caret-icon fas fa fa-caret-down" data-toggle="collapse" data-target="#pengawakan-field" aria-expanded="true" aria-controls="pengawakan-field"></i>
+          </h4>
+
+          <div class="collapse hide" id="pengawakan-field">
+            <div class="form-group">
+              <label class="d-block">Nakhoda</label>
+              <div class="custom-control custom-radio custom-control-inline">
+                <input type="radio" name="nakhoda" class="custom-control-input">
+                <label class="custom-control-label">Sesuai</label>
+              </div>
+              <div class="custom-control custom-radio custom-control-inline">
+                <input type="radio" name="nakhoda" class="custom-control-input">
+                <label class="custom-control-label">Tidak sesuai</label>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="d-block">Jumlah perwira</label>
+              <div class="custom-control custom-radio custom-control-inline">
+                <input type="radio" name="jumlahPerwira" class="custom-control-input">
+                <label class="custom-control-label">Sesuai</label>
+              </div>
+              <div class="custom-control custom-radio custom-control-inline">
+                <input type="radio" name="jumlahPerwira" class="custom-control-input">
+                <label class="custom-control-label">Tidak sesuai</label>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="d-block">Jumlah ABK</label>
+              <div class="custom-control custom-radio custom-control-inline">
+                <input type="radio" name="jumlahABK" class="custom-control-input">
+                <label class="custom-control-label">Sesuai</label>
+              </div>
+              <div class="custom-control custom-radio custom-control-inline">
+                <input type="radio" name="jumlahABK" class="custom-control-input">
+                <label class="custom-control-label">Tidak sesuai</label>
+              </div>
+            </div>
+          </div>
+          
+
+        </div>
+
+        <div class="" id="api">
+          <h4>
+            Alat Penangkapan Ikan <i class="caret-icon fas fa fa-caret-down" data-toggle="collapse" data-target="#api-field" aria-expanded="true" aria-controls="api-field"></i>
+          </h4>
+
+          <div class="collapse hide" id="api-field">
+            <div class="form-group">
+              <label class="d-block">Jenis alat tangkap</label>
+              <div class="custom-control custom-radio custom-control-inline">
+                <input type="radio" name="jenisAlatTangkap" class="custom-control-input">
+                <label class="custom-control-label">Sesuai</label>
+              </div>
+              <div class="custom-control custom-radio custom-control-inline">
+                <input type="radio" name="jenisAlatTangkap" class="custom-control-input">
+                <label class="custom-control-label">Tidak sesuai</label>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="d-block">Jumlah alat penangkap ikan</label>
+              <div class="custom-control custom-radio custom-control-inline">
+                <input type="radio" name="jumlahAPI" class="custom-control-input">
+                <label class="custom-control-label">Sesuai</label>
+              </div>
+              <div class="custom-control custom-radio custom-control-inline">
+                <input type="radio" name="jumlahAPI" class="custom-control-input">
+                <label class="custom-control-label">Tidak sesuai</label>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="d-block">Jumlah alat bantu penangkapan ikan</label>
+              <div class="custom-control custom-radio custom-control-inline">
+                <input type="radio" name="jumlahABPI" class="custom-control-input">
+                <label class="custom-control-label">Sesuai</label>
+              </div>
+              <div class="custom-control custom-radio custom-control-inline">
+                <input type="radio" name="jumlahABPI" class="custom-control-input">
+                <label class="custom-control-label">Tidak sesuai</label>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="d-block">Spesifikasi alat penangkapan ikan</label>
+              <div class="custom-control custom-radio custom-control-inline">
+                <input type="radio" name="spekAPI" class="custom-control-input">
+                <label class="custom-control-label">Sesuai</label>
+              </div>
+              <div class="custom-control custom-radio custom-control-inline">
+                <input type="radio" name="spekAPI" class="custom-control-input">
+                <label class="custom-control-label">Tidak sesuai</label>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="d-block">Spesifikasi alat bantu penangkapan ikan</label>
+              <div class="custom-control custom-radio custom-control-inline">
+                <input type="radio" name="spekABPI" class="custom-control-input">
+                <label class="custom-control-label">Sesuai</label>
+              </div>
+              <div class="custom-control custom-radio custom-control-inline">
+                <input type="radio" name="spekABPI" class="custom-control-input">
+                <label class="custom-control-label">Tidak sesuai</label>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="d-block">Palkah dan jenis pendingin</label>
+              <div class="custom-control custom-radio custom-control-inline">
+                <input type="radio" name="palkah" class="custom-control-input">
+                <label class="custom-control-label">Sesuai</label>
+              </div>
+              <div class="custom-control custom-radio custom-control-inline">
+                <input type="radio" name="palkah" class="custom-control-input">
+                <label class="custom-control-label">Tidak sesuai</label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <button type="button" class="btn btn-block btn-success" data-toggle="modal" data-target="#exampleModal">
+          Simpan
+        </button>
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Simpan hasil pemeriksaan kapal</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                Data - data yang anda input tidak dapat diubah setelah disimpan. Periksa kembali dan pastikan data - data yang anda isi adalah data yang sebenarnya didapat dari hasil pemeriksaan langsung ke kapal nelayan
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Kembali</button>
+                <!-- <input type="submit" name="" class="btn btn-block btn-success" value="Simpan"> -->
+                <button type="submit" class="btn btn-primary">Simpan</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+      </form>
+      
+
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="/function.js"></script>
+    <script type="text/javascript" src="/form.js"></script>
+
+
+    <script>
+      const allRadio = document.querySelectorAll('input[type="radio"][value = "Tidak sesuai persyaratan"]')
+      console.log(allRadio)
+      allRadio.forEach(function (item) {
+        item.addEventListener('click',function (e){
+          console.log(e.srcElement.name)
+          // console.log()
+          document.querySelector(`#${e.srcElement.name}-div`).setAttribute('class','d-block')
+        })
+      })
+
+      const allRadioSesuai = document.querySelectorAll('input[type="radio"][value = "Sesuai persyaratan"]')
+      console.log(allRadioSesuai)
+      allRadioSesuai.forEach(function (item) {
+        item.addEventListener('click',function (e){
+          document.querySelector(`#${e.srcElement.name}-div`).setAttribute('class','d-none')
+          console.log(document.querySelector(`#${e.srcElement.name}ket`).lastChild)
+
+        })
+      })
+      
+    </script>
+  </body>
+</html>
