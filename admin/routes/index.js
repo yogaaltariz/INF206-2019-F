@@ -1,3 +1,13 @@
+const express = require('express')
+const router = express.Router()
+const session = require('express-session')
+const nodemailer = require("nodemailer")
+const bcrypt = require('bcrypt')
+const saltRounds = 10
+
+const Admin = require('../models/admin')
+const Petugas = require('../models/petugas')
+const Datakir = require('../models/datakir')
 function checkSignIn(req, res,next){
 	if(req.session.user){
 	   next()     //If session exists, proceed to page
@@ -9,16 +19,6 @@ function checkSignIn(req, res,next){
 	}
 }
 
-const express = require('express')
-const router = express.Router()
-const session = require('express-session')
-const nodemailer = require("nodemailer")
-const bcrypt = require('bcrypt')
-const saltRounds = 10
-
-const Admin = require('../models/admin')
-const Petugas = require('../models/petugas')
-const Datakir = require('../models/datakir')
 
 
 const transporter = nodemailer.createTransport({
@@ -55,6 +55,27 @@ router.post('/petugas/edit/:id/save',checkSignIn,function(req,res){
     })
 })
 
+<<<<<<< HEAD
+router.get('/petugas/info/:id',checkSignIn,function(req,res){
+	Petugas.findOne({_id: req.params.id},function(err,foundPetugas){
+		 Datakir.find({idPetugas: foundPetugas._id},function(err,foundData){
+			  // dataPetugas = JSON.stringify(foundPetugas)
+			  // dataKapal = JSON.stringify(foundData)
+			  const kapalLulus = foundData.filter(function (item){
+					return item.hasil
+			  })
+
+			  const kapalTidakLulus = foundData.filter(function (item){
+					return !(item.hasil)
+			  })
+			  const num = foundData.length
+			  const petugas= JSON.stringify(foundPetugas)
+
+			  res.render('infoPetugas',{id: foundPetugas._id,petugas:petugas,jumlah:num,kapalLulus:kapalLulus.length,kapalTidakLulus:kapalTidakLulus.length})
+		 })
+	})
+	// res.render('infoPetugas')
+=======
 router.get('/login',function(req,res){
     res.render('login')
 })
@@ -88,4 +109,5 @@ router.post('/login',function(req,res){
             }
         }
     })
+>>>>>>> master
 })
