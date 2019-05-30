@@ -145,6 +145,28 @@ router.post('/login',function(req,res){
         }
 	})
 	
+	router.get('/petugas',checkSignIn,function(req,res){
+		Petugas.find(function(err,data){
+			if (err) {
+				console.log(err)
+			} else {
+				const petugas = JSON.stringify(data)
+				res.render('petugas',{petugas: petugas})
+			}
+		})
+	})
+	
+	router.get('/petugasJSON',function(req,res){
+		Petugas.find(function(err,data){
+			if (err) {
+				console.log(err);
+			} else {
+				res.send(data);
+			}
+		})
+	})
+
+
 	module.exports = router;
 >>>>>>> master
 >>>>>>> master
