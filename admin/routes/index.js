@@ -8,6 +8,20 @@ const saltRounds = 10
 const Admin = require('../models/admin')
 const Petugas = require('../models/petugas')
 const Datakir = require('../models/datakir')
+<<<<<<< HEAD
+=======
+function checkSignIn(req, res,next){
+	if(req.session.user){
+	   next()     //If session exists, proceed to page
+	} else {
+	   const err = new Error("Not logged in!")
+       console.log(req.session.user)
+       req.flash('info', 'Login terlebih dahulu');
+	   next(err) //Error, trying to access unauthorized page!
+	}
+}
+
+>>>>>>> master
 
 function checkSignIn(req, res,next){
 	if(req.session.user){
@@ -53,6 +67,7 @@ router.post('/petugas/edit/:id/save',checkSignIn,function(req,res){
         }
     })
 })
+<<<<<<< HEAD
 router.post('/addPetugas',function(req,res){
 	const password = Math.random().toString(36).substring(7);
 	bcrypt.hash(password,saltRounds,function(err,hash){
@@ -87,4 +102,62 @@ router.post('/addPetugas',function(req,res){
 			  }
 		 })
 	})
+=======
+
+<<<<<<< HEAD
+router.get('/petugas/info/:id',checkSignIn,function(req,res){
+	Petugas.findOne({_id: req.params.id},function(err,foundPetugas){
+		 Datakir.find({idPetugas: foundPetugas._id},function(err,foundData){
+			  // dataPetugas = JSON.stringify(foundPetugas)
+			  // dataKapal = JSON.stringify(foundData)
+			  const kapalLulus = foundData.filter(function (item){
+					return item.hasil
+			  })
+
+			  const kapalTidakLulus = foundData.filter(function (item){
+					return !(item.hasil)
+			  })
+			  const num = foundData.length
+			  const petugas= JSON.stringify(foundPetugas)
+
+			  res.render('infoPetugas',{id: foundPetugas._id,petugas:petugas,jumlah:num,kapalLulus:kapalLulus.length,kapalTidakLulus:kapalTidakLulus.length})
+		 })
+	})
+	// res.render('infoPetugas')
+=======
+router.get('/login',function(req,res){
+    res.render('login')
+})
+
+router.get('/logout',function(req,res){
+    req.session.destroy(function(){
+        console.log("user logged out.")
+     });
+     
+     res.redirect('/login');
+})
+router.post('/login',function(req,res){
+    const username = req.body.username
+    const password = req.body.password
+    // console.log(req.body)
+    Admin.findOne({username: username},function(err,foundUser){
+        if (err) {
+            console.log(err)
+        } else {
+            if (foundUser) {
+                if (foundUser.password === password) {
+                    req.session.user = foundUser
+                    res.redirect('/')
+                } else {
+                    req.flash('info', 'Username atau password salah');
+                    res.render('login')
+                }
+            } else {
+                req.flash('info', 'Username atau password salah');
+                res.render('login')
+            }
+        }
+    })
+>>>>>>> master
+>>>>>>> master
 })
