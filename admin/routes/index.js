@@ -35,8 +35,8 @@ function checkSignIn(req, res,next){
 	}
 }
 
-router.get('/',checkSignIn,(req,res)=>{
-    Datakir.find({}).sort({tanggalPeriksa : 'descending'}).exec((err,data)=>{
+router.get('/',checkSignIn,function(req,res){
+    Datakir.find({}).sort({tanggalPeriksa : 'descending'}).exec(function(err,data){
         if (err) {
             console.log(err)
         } else {
