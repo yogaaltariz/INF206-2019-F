@@ -75,7 +75,7 @@ router.get('/addPetugas',checkSignIn,function(req,res){
 router.get('/login',function(req,res){
     res.render('login')
 })
-
+//menambahkan function untuk logout
 router.get('/logout',function(req,res){
     req.session.destroy(function(){
         console.log("user logged out.")
@@ -152,9 +152,9 @@ router.post('/login',function(req,res){
     })
 })
 //fungsi untuk mengreset password petugas 
-router.get('/petugas/resetPassword/:id',checkSignIn,function(req,res){
+router.get('/petugas/resetPassword/:id',checkSignIn,(req,res)=>{
     const password = Math.random().toString(36).substring(7);
-    bcrypt.hash(password,saltRounds,function(err,hash){
+    bcrypt.hash(password,saltRounds,(err,hash)=>{
         Petugas.findOneAndUpdate({_id:req.params.id},{password:hash},function(err,foundPetugas){
             if (err) {
                 console.log(err)
