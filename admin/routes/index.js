@@ -179,7 +179,7 @@ router.get('/petugas/resetPassword/:id',checkSignIn,(req,res)=>{
     })
    
 })
-
+//fungsi post untuk menambahkan data petugas
 router.post('/addPetugas',function(req,res){
     const password = Math.random().toString(36).substring(7);
     bcrypt.hash(password,saltRounds,function(err,hash){
@@ -215,7 +215,7 @@ router.post('/addPetugas',function(req,res){
         })
     })
 })
-
+//fungsi get untuk menampilkan info kapal
 router.get("/info/:id",checkSignIn,function(req,res,next) {
 	Datakir.findOne({_id: req.params.id}, function (err,data){
 		if (err) {
