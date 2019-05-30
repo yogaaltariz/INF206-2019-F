@@ -104,7 +104,7 @@ router.get('/petugas/info/:id',checkSignIn,function(req,res){
     })
     // res.render('infoPetugas')
 })
-
+//fungsi get untuk mengedit data petugas
 router.get('/petugas/edit/:id',checkSignIn,function(req,res){
     Petugas.findOne({_id:req.params.id},function(err,foundPetugas){
         if (err) {
@@ -115,7 +115,7 @@ router.get('/petugas/edit/:id',checkSignIn,function(req,res){
         }
     })
 })
-
+//fungsi post untuk mengedit data petugas 
 router.post('/petugas/edit/:id/save',checkSignIn,function(req,res){
     Petugas.updateOne({_id:req.params.id},req.body,function(err){
         if (err) {
@@ -127,7 +127,7 @@ router.post('/petugas/edit/:id/save',checkSignIn,function(req,res){
         }
     })
 })
-
+//function untuk login
 router.post('/login',function(req,res){
     const username = req.body.username
     const password = req.body.password
