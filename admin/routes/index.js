@@ -200,7 +200,18 @@ router.post('/login',function(req,res){
     res.render('addPetugas')
 })
 
+router.get('/',checkSignIn,function(req,res){
+    Datakir.find({}).sort({tanggalPeriksa : 'descending'}).exec(function(err,data){
+        if (err) {
+            console.log(err)
+        } else {
+            let dataDB = JSON.stringify(data)
 
+            res.render('index',{data: dataDB})
+        }
+    })
+    
+})
 	module.exports = router;
 >>>>>>> master
 >>>>>>> master
