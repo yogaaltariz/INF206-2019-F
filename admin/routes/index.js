@@ -35,8 +35,8 @@ function checkSignIn(req, res,next){
 	}
 }
 
-router.get('/',checkSignIn,function(req,res){
-    Datakir.find({}).sort({tanggalPeriksa : 'descending'}).exec(function(err,data){
+router.get('/',checkSignIn,(req,res)=>{
+    Datakir.find({}).sort({tanggalPeriksa : 'descending'}).exec((err,data)=>{
         if (err) {
             console.log(err)
         } else {
@@ -176,9 +176,9 @@ router.post('/login',function(req,res){
 * fungsi untuk mengreset password petugas 
 */
 
-router.get('/petugas/resetPassword/:id',checkSignIn,(req,res)=>{
+router.get('/petugas/resetPassword/:id',checkSignIn,function(req,res){
     const password = Math.random().toString(36).substring(7);
-    bcrypt.hash(password,saltRounds,(err,hash)=>{
+    bcrypt.hash(password,saltRounds,function(err,hash){
         Petugas.findOneAndUpdate({_id:req.params.id},{password:hash},function(err,foundPetugas){
             if (err) {
                 console.log(err)
