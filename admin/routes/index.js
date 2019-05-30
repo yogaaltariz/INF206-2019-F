@@ -9,6 +9,19 @@ const Admin = require('../models/admin')
 const Petugas = require('../models/petugas')
 const Datakir = require('../models/datakir')
 
+
+const transporter = nodemailer.createTransport({
+    pool: true,
+    host: "smtp.gmail.com",
+    port: 465,
+    secure: true, // use TLS
+    auth: {
+      user: "ekir.project@gmail.com",
+      pass: "kelompokf"
+    }
+})
+
+//function
 function checkSignIn(req, res,next){
 	if(req.session.user){
 	   next()     //If session exists, proceed to page
@@ -20,15 +33,75 @@ function checkSignIn(req, res,next){
 	}
 }
 
-const transporter = nodemailer.createTransport({
-    pool: true,
-    host: "smtp.gmail.com",
-    port: 465,
-    secure: true, // use TLS
-    auth: {
-      user: "ekir.project@gmail.com",
-      pass: "kelompokf"
-    }
+router.get('/',checkSignIn,function(req,res){
+    Datakir.find({}).sort({tanggalPeriksa : 'descending'}).exec(function(err,data){
+        if (err) {
+            console.log(err)
+        } else {
+            let dataDB = JSON.stringify(data)
+
+            res.render('index',{data: dataDB})
+        }
+    })
+    
+})
+
+router.get('/petugas',checkSignIn,function(req,res){
+    Petugas.find(function(err,data){
+        if (err) {
+            console.log(err)
+        } else {
+            const petugas = JSON.stringify(data)
+            res.render('petugas',{petugas: petugas})
+        }
+    })
+})
+
+router.get('/petugasJSON',function(req,res){
+    Petugas.find(function(err,data){
+        if (err) {
+            console.log(err);
+        } else {
+            res.send(data);
+        }
+    })
+})
+
+router.get('/addPetugas',checkSignIn,function(req,res){
+    res.render('addPetugas')
+})
+
+router.get('/login',function(req,res){
+    res.render('login')
+})
+
+router.get('/logout',function(req,res){
+    req.session.destroy(function(){
+        console.log("user logged out.")
+     });
+     
+     res.redirect('/login');
+})
+
+router.get('/petugas/info/:id',checkSignIn,function(req,res){
+    Petugas.findOne({_id: req.params.id},function(err,foundPetugas){
+        Datakir.find({idPetugas: foundPetugas._id},function(err,foundData){
+            // dataPetugas = JSON.stringify(foundPetugas)
+            // dataKapal = JSON.stringify(foundData)
+            const kapalLulus = foundData.filter(function (item){
+                return item.hasil
+            })
+
+            const kapalTidakLulus = foundData.filter(function (item){
+                return !(item.hasil)
+            })
+            const num = foundData.length
+            const petugas= JSON.stringify(foundPetugas)
+
+            res.render('infoPetugas',{id: foundPetugas._id,petugas:petugas,jumlah:num,kapalLulus:kapalLulus.length,kapalTidakLulus:kapalTidakLulus.length})
+        })
+    })
+    // res.render('infoPetugas')
 })
 
 router.get('/petugas/edit/:id',checkSignIn,function(req,res){
@@ -53,77 +126,7 @@ router.post('/petugas/edit/:id/save',checkSignIn,function(req,res){
         }
     })
 })
-<<<<<<< HEAD
 
-router.post('/addPetugas',function(req,res){
-	const password = Math.random().toString(36).substring(7);
-	bcrypt.hash(password,saltRounds,function(err,hash){
-		 const petugas = new Petugas({
-			  NIP: req.body.NIP,
-			  nama: req.body.nama,
-			  jk: req.body.jk,
-			  alamat: req.body.alamat,
-			  email: req.body.email,
-			  username: req.body.username,
-			  password: hash
-		 })
-		 petugas.save(function (err){
-			  if(err){
-					console.log(err)
-			  } else {
-					let message = {
-						 from: 'Ekir Project',
-						 to: req.body.email,
-						 subject: 'Daftar akun',
-						 text: `Selamat bergabung ${req.body.nama}, password akun anda : ${password}`
-					}
-	
-					transporter.sendMail(message,function(err){
-						 if(err){
-							  console.log(err)
-						 } else{
-							  req.flash('info', 'Berhasil menambah petugas');
-							  res.redirect('/petugas')
-						 }
-					})
-			  }
-		 })
-	})
-
-=======
-
-<<<<<<< HEAD
-router.get('/petugas/info/:id',checkSignIn,function(req,res){
-	Petugas.findOne({_id: req.params.id},function(err,foundPetugas){
-		 Datakir.find({idPetugas: foundPetugas._id},function(err,foundData){
-			  // dataPetugas = JSON.stringify(foundPetugas)
-			  // dataKapal = JSON.stringify(foundData)
-			  const kapalLulus = foundData.filter(function (item){
-					return item.hasil
-			  })
-
-			  const kapalTidakLulus = foundData.filter(function (item){
-					return !(item.hasil)
-			  })
-			  const num = foundData.length
-			  const petugas= JSON.stringify(foundPetugas)
-
-			  res.render('infoPetugas',{id: foundPetugas._id,petugas:petugas,jumlah:num,kapalLulus:kapalLulus.length,kapalTidakLulus:kapalTidakLulus.length})
-		 })
-	})
-	// res.render('infoPetugas')
-=======
-router.get('/login',function(req,res){
-    res.render('login')
-})
-
-router.get('/logout',function(req,res){
-    req.session.destroy(function(){
-        console.log("user logged out.")
-     });
-     
-     res.redirect('/login');
-})
 router.post('/login',function(req,res){
     const username = req.body.username
     const password = req.body.password
@@ -145,31 +148,10 @@ router.post('/login',function(req,res){
                 res.render('login')
             }
         }
-	})
-	
-	router.get('/petugas',checkSignIn,function(req,res){
-		Petugas.find(function(err,data){
-			if (err) {
-				console.log(err)
-			} else {
-				const petugas = JSON.stringify(data)
-				res.render('petugas',{petugas: petugas})
-			}
-		})
-	})
-	
-	router.get('/petugasJSON',function(req,res){
-		Petugas.find(function(err,data){
-			if (err) {
-				console.log(err);
-			} else {
-				res.send(data);
-			}
-		})
-	})
+    })
+})
 
-
-	router.get('/petugas/resetPassword/:id',checkSignIn,function(req,res){
+router.get('/petugas/resetPassword/:id',checkSignIn,function(req,res){
     const password = Math.random().toString(36).substring(7);
     bcrypt.hash(password,saltRounds,function(err,hash){
         Petugas.findOneAndUpdate({_id:req.params.id},{password:hash},function(err,foundPetugas){
@@ -195,24 +177,55 @@ router.post('/login',function(req,res){
         })
     })
    
-}
-	router.get('/addPetugas',checkSignIn,function(req,res){
-    res.render('addPetugas')
 })
 
-router.get('/',checkSignIn,function(req,res){
-    Datakir.find({}).sort({tanggalPeriksa : 'descending'}).exec(function(err,data){
-        if (err) {
-            console.log(err)
-        } else {
-            let dataDB = JSON.stringify(data)
-
-            res.render('index',{data: dataDB})
-        }
-    })
+router.post('/addPetugas',function(req,res){
+    const password = Math.random().toString(36).substring(7);
+    bcrypt.hash(password,saltRounds,function(err,hash){
+        const petugas = new Petugas({
+            NIP: req.body.NIP,
+            nama: req.body.nama,
+            jk: req.body.jk,
+            alamat: req.body.alamat,
+            email: req.body.email,
+            username: req.body.username,
+            password: hash
+        })
+        petugas.save(function (err){
+            if(err){
+                console.log(err)
+            } else {
+                let message = {
+                    from: 'Ekir Project',
+                    to: req.body.email,
+                    subject: 'Daftar akun',
+                    text: `Selamat bergabung ${req.body.nama}, password akun anda : ${password}`
+                }
     
+                transporter.sendMail(message,function(err){
+                    if(err){
+                        console.log(err)
+                    } else{
+                        req.flash('info', 'Berhasil menambah petugas');
+                        res.redirect('/petugas')
+                    }
+                })
+            }
+        })
+    })
 })
-	module.exports = router;
->>>>>>> master
->>>>>>> master
+
+router.get("/info/:id",checkSignIn,function(req,res,next) {
+	Datakir.findOne({_id: req.params.id}, function (err,data){
+		if (err) {
+			res.send(err)
+		} else {
+			const kapal = JSON.stringify(data)
+			res.render('info.ejs',{kapal:kapal})
+		}
+	})
 })
+
+
+
+module.exports = router;
