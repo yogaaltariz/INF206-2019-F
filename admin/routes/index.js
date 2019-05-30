@@ -67,10 +67,11 @@ router.get('/petugasJSON',function(req,res){
     })
 })
 
+//menambahkan function untuk add petugas
 router.get('/addPetugas',checkSignIn,function(req,res){
     res.render('addPetugas')
 })
-
+//menambahkan function untuk login
 router.get('/login',function(req,res){
     res.render('login')
 })
@@ -150,7 +151,7 @@ router.post('/login',function(req,res){
         }
     })
 })
-
+//fungsi untuk mengreset password petugas 
 router.get('/petugas/resetPassword/:id',checkSignIn,function(req,res){
     const password = Math.random().toString(36).substring(7);
     bcrypt.hash(password,saltRounds,function(err,hash){
