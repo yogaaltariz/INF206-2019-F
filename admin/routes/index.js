@@ -47,7 +47,9 @@ router.get('/',checkSignIn,function(req,res){
     })
     
 })
-
+/*
+* fungsi router untuk find data petugas
+*/
 router.get('/petugas',checkSignIn,function(req,res){
     Petugas.find(function(err,data){
         if (err) {
