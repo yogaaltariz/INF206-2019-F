@@ -72,19 +72,19 @@ router.get('/petugasJSON',function(req,res){
 })
 
 /*
-*menambahkan function untuk add petugas
+* function get untuk add petugas
 */
 router.get('/addPetugas',checkSignIn,function(req,res){
     res.render('addPetugas')
 })
 /*
-* menambahkan function untuk login
+* function get untuk login
 */
 router.get('/login',function(req,res){
     res.render('login')
 })
 /*
-* menambahkan function untuk logout
+* function get untuk logout
 */
 router.get('/logout',function(req,res){
     req.session.destroy(function(){
@@ -94,7 +94,7 @@ router.get('/logout',function(req,res){
      res.redirect('/login');
 })
 /*
-* fungsi router untuk mendapat info dari petugas
+* fungsi router get mendapat info dari petugas
 */
 router.get('/petugas/info/:id',checkSignIn,function(req,res){
     Petugas.findOne({_id: req.params.id},function(err,foundPetugas){
@@ -146,7 +146,7 @@ router.post('/petugas/edit/:id/save',checkSignIn,function(req,res){
     })
 })
 /*
-* function untuk login
+* function router post untuk login
 */
 
 router.post('/login',function(req,res){
