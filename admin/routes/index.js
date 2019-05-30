@@ -54,6 +54,7 @@ router.post('/petugas/edit/:id/save',checkSignIn,function(req,res){
     })
 })
 <<<<<<< HEAD
+
 router.post('/addPetugas',function(req,res){
 	const password = Math.random().toString(36).substring(7);
 	bcrypt.hash(password,saltRounds,function(err,hash){
@@ -88,6 +89,7 @@ router.post('/addPetugas',function(req,res){
 			  }
 		 })
 	})
+
 =======
 
 <<<<<<< HEAD
@@ -145,6 +147,71 @@ router.post('/login',function(req,res){
         }
 	})
 	
+	router.get('/petugas',checkSignIn,function(req,res){
+		Petugas.find(function(err,data){
+			if (err) {
+				console.log(err)
+			} else {
+				const petugas = JSON.stringify(data)
+				res.render('petugas',{petugas: petugas})
+			}
+		})
+	})
+	
+	router.get('/petugasJSON',function(req,res){
+		Petugas.find(function(err,data){
+			if (err) {
+				console.log(err);
+			} else {
+				res.send(data);
+			}
+		})
+	})
+
+
+	router.get('/petugas/resetPassword/:id',checkSignIn,function(req,res){
+    const password = Math.random().toString(36).substring(7);
+    bcrypt.hash(password,saltRounds,function(err,hash){
+        Petugas.findOneAndUpdate({_id:req.params.id},{password:hash},function(err,foundPetugas){
+            if (err) {
+                console.log(err)
+            } else {
+                let message = {
+                    from: 'Ekir Project',
+                    to: foundPetugas.email,
+                    subject: 'Reset Password',
+                    text: `Password baru akun anda : ${password}`
+                }
+    
+                transporter.sendMail(message,function(err){
+                    if(err){
+                        console.log(err)
+                    } else{
+                        req.flash('info', 'Reset password berhasil');
+                        res.redirect(`/petugas/info/${req.params.id}`)
+                    }
+                })
+            }
+        })
+    })
+   
+}
+	router.get('/addPetugas',checkSignIn,function(req,res){
+    res.render('addPetugas')
+})
+
+router.get('/',checkSignIn,function(req,res){
+    Datakir.find({}).sort({tanggalPeriksa : 'descending'}).exec(function(err,data){
+        if (err) {
+            console.log(err)
+        } else {
+            let dataDB = JSON.stringify(data)
+
+            res.render('index',{data: dataDB})
+        }
+    })
+    
+})
 	module.exports = router;
 >>>>>>> master
 >>>>>>> master
