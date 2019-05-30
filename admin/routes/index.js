@@ -8,20 +8,6 @@ const saltRounds = 10
 const Admin = require('../models/admin')
 const Petugas = require('../models/petugas')
 const Datakir = require('../models/datakir')
-<<<<<<< HEAD
-=======
-function checkSignIn(req, res,next){
-	if(req.session.user){
-	   next()     //If session exists, proceed to page
-	} else {
-	   const err = new Error("Not logged in!")
-       console.log(req.session.user)
-       req.flash('info', 'Login terlebih dahulu');
-	   next(err) //Error, trying to access unauthorized page!
-	}
-}
-
->>>>>>> master
 
 function checkSignIn(req, res,next){
 	if(req.session.user){
@@ -157,7 +143,9 @@ router.post('/login',function(req,res){
                 res.render('login')
             }
         }
-    })
+	})
+	
+	module.exports = router;
 >>>>>>> master
 >>>>>>> master
 })
