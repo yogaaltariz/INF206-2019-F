@@ -8,7 +8,9 @@
 
 
 
-
+app.use(express.static(__dirname+'/assets'));
+app.use(express.static(__dirname+'/css'));
+app.use(express.static(__dirname+'/js'));
 
 
 
