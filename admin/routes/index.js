@@ -8,20 +8,6 @@ const saltRounds = 10
 const Admin = require('../models/admin')
 const Petugas = require('../models/petugas')
 const Datakir = require('../models/datakir')
-<<<<<<< HEAD
-=======
-function checkSignIn(req, res,next){
-	if(req.session.user){
-	   next()     //If session exists, proceed to page
-	} else {
-	   const err = new Error("Not logged in!")
-       console.log(req.session.user)
-       req.flash('info', 'Login terlebih dahulu');
-	   next(err) //Error, trying to access unauthorized page!
-	}
-}
-
->>>>>>> master
 
 function checkSignIn(req, res,next){
 	if(req.session.user){
@@ -68,6 +54,7 @@ router.post('/petugas/edit/:id/save',checkSignIn,function(req,res){
     })
 })
 <<<<<<< HEAD
+
 router.post('/addPetugas',function(req,res){
 	const password = Math.random().toString(36).substring(7);
 	bcrypt.hash(password,saltRounds,function(err,hash){
@@ -102,6 +89,7 @@ router.post('/addPetugas',function(req,res){
 			  }
 		 })
 	})
+
 =======
 
 <<<<<<< HEAD
@@ -157,7 +145,63 @@ router.post('/login',function(req,res){
                 res.render('login')
             }
         }
+	})
+	
+	router.get('/petugas',checkSignIn,function(req,res){
+		Petugas.find(function(err,data){
+			if (err) {
+				console.log(err)
+			} else {
+				const petugas = JSON.stringify(data)
+				res.render('petugas',{petugas: petugas})
+			}
+		})
+	})
+	
+	router.get('/petugasJSON',function(req,res){
+		Petugas.find(function(err,data){
+			if (err) {
+				console.log(err);
+			} else {
+				res.send(data);
+			}
+		})
+	})
+
+
+	router.get('/petugas/resetPassword/:id',checkSignIn,function(req,res){
+    const password = Math.random().toString(36).substring(7);
+    bcrypt.hash(password,saltRounds,function(err,hash){
+        Petugas.findOneAndUpdate({_id:req.params.id},{password:hash},function(err,foundPetugas){
+            if (err) {
+                console.log(err)
+            } else {
+                let message = {
+                    from: 'Ekir Project',
+                    to: foundPetugas.email,
+                    subject: 'Reset Password',
+                    text: `Password baru akun anda : ${password}`
+                }
+    
+                transporter.sendMail(message,function(err){
+                    if(err){
+                        console.log(err)
+                    } else{
+                        req.flash('info', 'Reset password berhasil');
+                        res.redirect(`/petugas/info/${req.params.id}`)
+                    }
+                })
+            }
+        })
     })
+   
+}
+	router.get('/addPetugas',checkSignIn,function(req,res){
+    res.render('addPetugas')
+})
+
+
+	module.exports = router;
 >>>>>>> master
 >>>>>>> master
 })

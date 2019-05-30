@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/yogaaltariz/INF206-2019-F#readme",
   "dependencies": {
-    "bcrypt": "^3.0.2",
+    "bcrypt": "^3.0.6",
     "body-parser": "^1.18.3",
     "dotenv": "^8.0.0",
     "ejs": "^2.6.1",
