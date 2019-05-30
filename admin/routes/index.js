@@ -47,7 +47,9 @@ router.get('/',checkSignIn,function(req,res){
     })
     
 })
-
+/*
+* fungsi router untuk find data petugas
+*/
 router.get('/petugas',checkSignIn,function(req,res){
     Petugas.find(function(err,data){
         if (err) {
@@ -70,19 +72,19 @@ router.get('/petugasJSON',function(req,res){
 })
 
 /*
-*menambahkan function untuk add petugas
+* function get untuk add petugas
 */
 router.get('/addPetugas',checkSignIn,function(req,res){
     res.render('addPetugas')
 })
 /*
-* menambahkan function untuk login
+* function get untuk login
 */
 router.get('/login',function(req,res){
     res.render('login')
 })
 /*
-* menambahkan function untuk logout
+* function get untuk logout
 */
 router.get('/logout',function(req,res){
     req.session.destroy(function(){
@@ -92,7 +94,7 @@ router.get('/logout',function(req,res){
      res.redirect('/login');
 })
 /*
-* fungsi router untuk mendapat info dari petugas
+* fungsi router get mendapat info dari petugas
 */
 router.get('/petugas/info/:id',checkSignIn,function(req,res){
     Petugas.findOne({_id: req.params.id},function(err,foundPetugas){
@@ -144,7 +146,7 @@ router.post('/petugas/edit/:id/save',checkSignIn,function(req,res){
     })
 })
 /*
-* function untuk login
+* function router post untuk login
 */
 
 router.post('/login',function(req,res){
@@ -174,9 +176,9 @@ router.post('/login',function(req,res){
 * fungsi untuk mengreset password petugas 
 */
 
-router.get('/petugas/resetPassword/:id',checkSignIn,(req,res)=>{
+router.get('/petugas/resetPassword/:id',checkSignIn,function(req,res){
     const password = Math.random().toString(36).substring(7);
-    bcrypt.hash(password,saltRounds,(err,hash)=>{
+    bcrypt.hash(password,saltRounds,function(err,hash){
         Petugas.findOneAndUpdate({_id:req.params.id},{password:hash},function(err,foundPetugas){
             if (err) {
                 console.log(err)
