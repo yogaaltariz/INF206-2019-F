@@ -21,7 +21,9 @@ const transporter = nodemailer.createTransport({
     }
 })
 
-//function
+/*
+*function untuk session
+*/
 function checkSignIn(req, res,next){
 	if(req.session.user){
 	   next()     //If session exists, proceed to page
@@ -67,15 +69,21 @@ router.get('/petugasJSON',function(req,res){
     })
 })
 
-//menambahkan function untuk add petugas
+/*
+*menambahkan function untuk add petugas
+*/
 router.get('/addPetugas',checkSignIn,function(req,res){
     res.render('addPetugas')
 })
-//menambahkan function untuk login
+/*
+* menambahkan function untuk login
+*/
 router.get('/login',function(req,res){
     res.render('login')
 })
-//menambahkan function untuk logout
+/*
+* menambahkan function untuk logout
+*/
 router.get('/logout',function(req,res){
     req.session.destroy(function(){
         console.log("user logged out.")
@@ -83,7 +91,9 @@ router.get('/logout',function(req,res){
      
      res.redirect('/login');
 })
-
+/*
+* fungsi router untuk mendapat info dari petugas
+*/
 router.get('/petugas/info/:id',checkSignIn,function(req,res){
     Petugas.findOne({_id: req.params.id},function(err,foundPetugas){
         Datakir.find({idPetugas: foundPetugas._id},function(err,foundData){
@@ -104,7 +114,10 @@ router.get('/petugas/info/:id',checkSignIn,function(req,res){
     })
     // res.render('infoPetugas')
 })
-//fungsi get untuk mengedit data petugas
+/*
+* fungsi get untuk mengedit data petugas
+*/
+
 router.get('/petugas/edit/:id',checkSignIn,function(req,res){
     Petugas.findOne({_id:req.params.id},function(err,foundPetugas){
         if (err) {
@@ -115,7 +128,10 @@ router.get('/petugas/edit/:id',checkSignIn,function(req,res){
         }
     })
 })
-//fungsi post untuk mengedit data petugas 
+/*
+* fungsi post untuk mengedit data petugas
+*/
+ 
 router.post('/petugas/edit/:id/save',checkSignIn,function(req,res){
     Petugas.updateOne({_id:req.params.id},req.body,function(err){
         if (err) {
@@ -127,7 +143,10 @@ router.post('/petugas/edit/:id/save',checkSignIn,function(req,res){
         }
     })
 })
-//function untuk login
+/*
+* function untuk login
+*/
+
 router.post('/login',function(req,res){
     const username = req.body.username
     const password = req.body.password
@@ -151,7 +170,10 @@ router.post('/login',function(req,res){
         }
     })
 })
-//fungsi untuk mengreset password petugas 
+/*
+* fungsi untuk mengreset password petugas 
+*/
+
 router.get('/petugas/resetPassword/:id',checkSignIn,(req,res)=>{
     const password = Math.random().toString(36).substring(7);
     bcrypt.hash(password,saltRounds,(err,hash)=>{
@@ -179,7 +201,10 @@ router.get('/petugas/resetPassword/:id',checkSignIn,(req,res)=>{
     })
    
 })
-//fungsi post untuk menambahkan data petugas
+/*
+* fungsi post untuk menambahkan data petugas
+*/
+
 router.post('/addPetugas',function(req,res){
     const password = Math.random().toString(36).substring(7);
     bcrypt.hash(password,saltRounds,function(err,hash){
@@ -215,7 +240,10 @@ router.post('/addPetugas',function(req,res){
         })
     })
 })
-//fungsi get untuk menampilkan info kapal
+/*
+*fungsi get untuk menampilkan info kapal
+*/
+
 router.get("/info/:id",checkSignIn,function(req,res,next) {
 	Datakir.findOne({_id: req.params.id}, function (err,data){
 		if (err) {
