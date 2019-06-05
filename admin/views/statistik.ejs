@@ -15,6 +15,9 @@
     <link href="/libs/chartist/dist/chartist.min.css" rel="stylesheet">
     <!-- Custom CSS -->
     <link href="/style.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
+        integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -24,7 +27,6 @@
 </head>
 
 <body>
-
     <!-- ============================================================== -->
     <!-- Preloader - style you can find in spinners.css -->
     <!-- ============================================================== -->
@@ -166,7 +168,7 @@
             <div class="page-breadcrumb">
                 <div class="row">
                     <div class="col-5 align-self-center">
-                        <h4 class="page-title">Petugas KIR</h4>
+                        <h4 class="page-title">Statistik</h4>
                     </div>
                     <div class="col-7 align-self-center">
                         <div class="d-flex align-items-center justify-content-end">
@@ -175,7 +177,7 @@
                                     <li class="breadcrumb-item">
                                         <a href="#">Home</a>
                                     </li>
-                                    <li class="breadcrumb-item active" aria-current="page">Petugas KIR</li>
+                                    <li class="breadcrumb-item active" aria-current="page">Statistik</li>
                                 </ol>
                             </nav>
                         </div>
@@ -189,68 +191,65 @@
             <!-- Container fluid  -->
             <!-- ============================================================== -->
             <div class="container-fluid">
-                <!-- ============================================================== -->
-                <!-- Email campaign chart -->
-                <!-- ============================================================== -->
-                <% 
-                petugas = JSON.parse(petugas)
-                if(messages.info){
-                  %>
-                <div class="alert alert-success" role="alert">
-                    <%= messages.info %>
-                </div>
-                <%
-                }
-              %>
-                <div class="d-flex align-items-center">
-                    <span>Total petugas : <%=petugas.length %> </span>
-                    <div class="form-group mx-2">
-                        <input type="text" class="form-control" placeholder="cari petugas" id="cari">
+
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">Statistik Jumlah Pemeriksaan</h4>
+                                <canvas id="firstChart"></canvas>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="row" id="petugasField">
-                    <% 
-                    
-                        petugas.forEach(function(item){
-                            %>
-
-                    <div class="col-lg-4">
-                        <a href="/petugas/info/<%= item._id %>">
-                            <div class="card">
-                                <div class="card-body row">
-                                    <div class="col-6">
-                                        <img src="/images/users/user.png" class="rounded-circle" alt="" width="128">
-                                    </div>
-
-                                    <div class="col-6 d-flex align-items-center text-center">
-                                        <h3><%= item.nama %></h1>
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title m-b-5">Referral Earnings</h5>
+                                <h3 class="font-light">$769.08</h3>
+                                <div class="m-t-20 text-center">
+                                    <div id="earnings"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title m-b-0">Users</h4>
+                                <h2 class="font-light">35,658 <span class="font-16 text-success font-medium">+23%</span>
+                                </h2>
+                                <div class="m-t-30">
+                                    <div class="row text-center">
+                                        <div class="col-6 border-right">
+                                            <h4 class="m-b-0">58%</h4>
+                                            <span class="font-14 text-muted">New Users</span>
+                                        </div>
+                                        <div class="col-6">
+                                            <h4 class="m-b-0">42%</h4>
+                                            <span class="font-14 text-muted">Repeat Users</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </a>
+                        </div>
                     </div>
-                    <%
-                    })
-                    %>
 
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">Statistik Hasil Pemeriksaan</h4>
+                                <canvas id="hasilChart" width="400" height="400"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">Statistik Penyebab Tidak Lulus Pemeriksaan</h4>
+                                <canvas id="tidakLulusChart" width="400" height="400"></canvas>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <!-- ============================================================== -->
-                <!-- Email campaign chart -->
-                <!-- ============================================================== -->
-                <!-- ============================================================== -->
-                <!-- Ravenue - page-view-bounce rate -->
-                <!-- ============================================================== -->
-
-                <!-- ============================================================== -->
-                <!-- Ravenue - page-view-bounce rate -->
-                <!-- ============================================================== -->
-                <!-- ============================================================== -->
-                <!-- Recent comment and chats -->
-                <!-- ============================================================== -->
-
-                <!-- ============================================================== -->
-                <!-- Recent comment and chats -->
-                <!-- ============================================================== -->
             </div>
             <!-- ============================================================== -->
             <!-- End Container fluid  -->
@@ -293,57 +292,138 @@
     <script src="/libs/chartist/dist/chartist.min.js"></script>
     <script src="/libs/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></script>
     <script src="/pages/dashboards/dashboard1.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
     <script>
+        function loadOtherPage(url) {
+
+            $("<iframe>") // create a new iframe element
+                .hide() // make it invisible
+                .attr("src", url) // point the iframe to the page you want to print
+                .appendTo("body"); // add iframe to the DOM to cause it to load the page
+
+        }
+
         const tanggal = new Date()
         document.querySelector('#waktu').textContent = tanggal.toString()
 
-        const petugasField = document.querySelector('#petugasField')
-        let html = petugasField.innerHTML
-        const cari = document.querySelector('#cari')
-        cari.addEventListener('input', function (e) {
-            $.ajax({
-                    url: `/petugasJSON`,
-                    dataType: 'json'
-                })
-                .done(function (data) {
+        const ctx = document.getElementById('firstChart');
+        const myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+                datasets: [{
+                    label: '# of Votes',
+                    data: [12, 19, 3, 5, 2, 3],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
 
-                    let find = data.filter(function (item) {
-                        return item.nama.toLowerCase().includes(e.target.value.toLowerCase());
-                    })
+        const hasilChartCanvas = document.getElementById('hasilChart');
+        const hasilChart = new Chart(hasilChartCanvas, {
+            type: 'doughnut',
+            data: {
+                labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+                datasets: [{
+                    label: '# of Votes',
+                    data: [12, 19, 3, 5, 2, 3],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
 
-                    if (e.target.value) {
-                        find.forEach(element => {
 
-                            petugasField.innerHTML = `    <div class="col-lg-4">
-                    <a href="/petugas/info/${element._id}">
-                        <div class="card">
-                            <div class="card-body row">
-                                <div class="col-6">
-                                    <img src="/images/users/user.png" class="rounded-circle" alt="" width="128">
-                                </div>
-
-                            <div class="col-6 d-flex align-items-center text-center">
-                                <h3>${element.nama}</h3>
-                            </div>
-                            </div>
-                        </div>
-                    </a>
-                    </div>
-                    `
-                        });
-                    } else {
-                        petugasField.innerHTML = html
-
-                    }
-
-
-
-                })
-                .fail(function () {
-                    alert("Ajax failed to fetch data")
-                })
-        })
+        const tidakLulusChartCanvas = document.getElementById('tidakLulusChart');
+        const tidakLulusChart = new Chart(tidakLulusChartCanvas, {
+            type: 'pie',
+            data: {
+                labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+                datasets: [{
+                    label: '# of Votes',
+                    data: [12, 19, 3, 5, 2, 3],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
     </script>
+
+
+
 </body>
 
 </html>

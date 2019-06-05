@@ -59,7 +59,7 @@
                                 <!-- Dark Logo icon -->
                                 <img src="/images/warna.png" alt="homepage" width="36" height="30" />
                                 <!-- Light Logo icon -->
-                               
+
                             </b>
                             <!--End Logo icon -->
                             <!-- Logo text -->
@@ -139,6 +139,13 @@
                                 <span class="hide-menu">Tambah Petugas</span>
                             </a>
                         </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="/statistik"
+                                aria-expanded="false">
+                                <i class="mdi mdi-arrange-bring-forward"></i>
+                                <span class="hide-menu">Statistik</span>
+                            </a>
+                        </li>
                     </ul>
                 </nav>
                 <!-- End Sidebar navigation -->
@@ -187,9 +194,9 @@
                 <% 
                 if(messages.info){
                   %>
-                  <div class="alert alert-success" role="alert">
+                <div class="alert alert-success" role="alert">
                     <%= messages.info %>
-                  </div>
+                </div>
                 <%
                 }
               %>
@@ -200,18 +207,19 @@
                             <input type="text" class="form-control my-4" name="nama" placeholder="Nama lengkap petugas">
 
                             <select class="form-control" id="inlineFormCustomSelect" name="jk">
-                                    <option value='0'>Jenis Kelamin</option>
-                                    <option value="lk">Laki - laki</option>
-                                    <option value="pr">Perempuan</option>
+                                <option value='0'>Jenis Kelamin</option>
+                                <option value="lk">Laki - laki</option>
+                                <option value="pr">Perempuan</option>
                             </select>
 
                             <input type="text" class="form-control my-4" name="alamat" placeholder="Alamat petugas">
-                            
+
                         </div>
 
                         <div class="col border shadow-sm p-2">
                             <input type="email" class="form-control my-4" name="email" placeholder="Email petugas">
-                            <input type="text" class="form-control my-4" name="username" placeholder="Username akun petugas">
+                            <input type="text" class="form-control my-4" name="username"
+                                placeholder="Username akun petugas">
 
                         </div>
                     </div>

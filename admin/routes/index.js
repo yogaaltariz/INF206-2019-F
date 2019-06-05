@@ -260,6 +260,9 @@ router.get("/info/:id",checkSignIn,function(req,res,next) {
 	})
 })
 
+router.get("/statistik",checkSignIn,function(req,res,next){
+    res.render("statistik.ejs")
+})
 
 
 module.exports = router;

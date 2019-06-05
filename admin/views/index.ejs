@@ -61,7 +61,7 @@
                                 <!-- Dark Logo icon -->
                                 <img src="/images/warna.png" alt="homepage" width="36" height="30" />
                                 <!-- Light Logo icon -->
-                               
+
                             </b>
                             <!--End Logo icon -->
                             <!-- Logo text -->
@@ -139,6 +139,13 @@
                                 aria-expanded="false">
                                 <i class="mdi mdi-arrange-bring-forward"></i>
                                 <span class="hide-menu">Tambah Petugas</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="/statistik"
+                                aria-expanded="false">
+                                <i class="mdi mdi-arrange-bring-forward"></i>
+                                <span class="hide-menu">Statistik</span>
                             </a>
                         </li>
                     </ul>
@@ -223,8 +230,9 @@
                                 <%}
                               %>
                             </td>
-                            <td><button class="btn btn-link" onclick=loadOtherPage('/info/<%- item._id %>')><i class="fas fa-print"></i> Print dokumen</button></td>
-                            
+                            <td><button class="btn btn-link" onclick=loadOtherPage('/info/<%- item._id %>')> <i
+                                    class="fas fa-print"></i> Print dokumen</button></td>
+
                         </tr>
                         <%
                         })%>
